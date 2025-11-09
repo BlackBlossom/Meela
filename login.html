@@ -1,0 +1,497 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Login - Meela</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      font-family: 'Neue Haas Grotesk Text', Arial, Helvetica, sans-serif;
+      background: rgba(0, 0, 0, 0.5);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+    }
+    
+    .login-container {
+      background: #fff;
+      border-radius: 12px;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+      max-width: 480px;
+      width: 100%;
+      padding: 40px;
+      animation: fadeIn 0.5s ease-out;
+      position: relative;
+      z-index: 1000;
+    }
+    
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+    
+    .logo-section {
+      text-align: center;
+      margin-bottom: 30px;
+    }
+    
+    .logo-section h1 {
+      font-size: 32px;
+      font-weight: 600;
+      color: #222;
+      margin-bottom: 8px;
+      font-family: 'Martina Plant', serif;
+    }
+    
+    .logo-section p {
+      font-size: 15px;
+      color: #666;
+    }
+    
+    .role-selection {
+      margin-bottom: 30px;
+    }
+    
+    .role-selection h2 {
+      font-size: 18px;
+      font-weight: 600;
+      color: #333;
+      margin-bottom: 16px;
+      text-align: center;
+    }
+    
+    .role-options {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 15px;
+    }
+    
+    .role-card {
+      border: 2px solid #e0e0e0;
+      border-radius: 8px;
+      padding: 20px;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      position: relative;
+    }
+    
+    .role-card:hover {
+      border-color: #111;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    }
+    
+    .role-card.selected {
+      border-color: #111;
+      background: #f9f9f9;
+    }
+    
+    .role-card input[type="radio"] {
+      position: absolute;
+      opacity: 0;
+      pointer-events: none;
+    }
+    
+    .role-icon {
+      font-size: 32px;
+      margin-bottom: 10px;
+    }
+    
+    .role-title {
+      font-size: 16px;
+      font-weight: 600;
+      color: #333;
+      margin-bottom: 4px;
+    }
+    
+    .role-desc {
+      font-size: 13px;
+      color: #666;
+    }
+    
+    .form-section {
+      margin-bottom: 24px;
+    }
+    
+    .form-group {
+      margin-bottom: 16px;
+    }
+    
+    label {
+      display: block;
+      font-size: 14px;
+      font-weight: 600;
+      color: #333;
+      margin-bottom: 8px;
+    }
+    
+    input[type="email"],
+    input[type="password"] {
+      width: 100%;
+      padding: 12px 16px;
+      border: 1px solid #ddd;
+      border-radius: 6px;
+      font-size: 15px;
+      transition: all 0.3s ease;
+      font-family: inherit;
+    }
+    
+    input[type="email"]:focus,
+    input[type="password"]:focus {
+      outline: none;
+      border-color: #111;
+      box-shadow: 0 0 0 3px rgba(17, 17, 17, 0.05);
+    }
+    
+    .btn-primary {
+      width: 100%;
+      padding: 14px;
+      background: #111;
+      color: #fff;
+      border: none;
+      border-radius: 6px;
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      font-family: inherit;
+    }
+    
+    .btn-primary:hover {
+      background: #000;
+      transform: translateY(-1px);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    }
+    
+    .btn-primary:active {
+      transform: translateY(0);
+    }
+    
+    .divider {
+      text-align: center;
+      margin: 24px 0;
+      position: relative;
+    }
+    
+    .divider::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 50%;
+      width: 100%;
+      height: 1px;
+      background: #e0e0e0;
+    }
+    
+    .divider span {
+      background: #fff;
+      padding: 0 12px;
+      font-size: 13px;
+      color: #999;
+      position: relative;
+      z-index: 1;
+    }
+    
+    .btn-secondary {
+      width: 100%;
+      padding: 14px 24px;
+      background: #fff;
+      color: #111;
+      border: 2px solid #111;
+      border-radius: 6px;
+      font-size: 15px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      font-family: inherit;
+      text-align: center;
+      text-decoration: none;
+      display: inline-block;
+      margin-top: 16px;
+    }
+    
+    .btn-secondary:hover {
+      background: #111;
+      color: #fff;
+      transform: translateY(-1px);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    }
+    
+    .btn-secondary:active {
+      transform: translateY(0);
+    }
+    
+    .message {
+      padding: 12px;
+      border-radius: 6px;
+      font-size: 14px;
+      margin-bottom: 16px;
+      display: none;
+    }
+    
+    .message.error {
+      background: #fee;
+      color: #c33;
+      border: 1px solid #fcc;
+    }
+    
+    .message.success {
+      background: #efe;
+      color: #3c3;
+      border: 1px solid #cfc;
+    }
+    
+    @media (max-width: 640px) {
+      .login-container {
+        padding: 30px 24px;
+      }
+      
+      .logo-section h1 {
+        font-size: 28px;
+      }
+      
+      .role-options {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+  
+  <!-- Firebase SDK -->
+  <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
+</head>
+<body>
+  <div class="login-container">
+    <div class="logo-section">
+      <h1>MEELA</h1>
+      <p>Welcome back! Please sign in to continue</p>
+    </div>
+    
+    <div class="role-selection">
+      <h2>Sign in as</h2>
+      <div class="role-options">
+        <label class="role-card selected" for="role-admin">
+          <input type="radio" name="role" id="role-admin" value="admin" checked>
+          <div class="role-icon">👨‍💼</div>
+          <div class="role-title">Admin</div>
+          <div class="role-desc">Manage store</div>
+        </label>
+      </div>
+    </div>
+    
+    <div id="message" class="message"></div>
+    
+    <form id="login-form" class="form-section">
+      <div class="form-group">
+        <label for="email">Email Address</label>
+        <input type="email" id="email" placeholder="your@email.com" required>
+      </div>
+      
+      <div class="form-group">
+        <label for="password">Password</label>
+        <input type="password" id="password" placeholder="Enter your password" required>
+      </div>
+      
+      <button type="submit" class="btn-primary">Sign In</button>
+    </form>
+    
+    <div class="divider">
+      <span>OR</span>
+    </div>
+    
+    <a href="index.htm" class="btn-secondary" onclick="window.top.location.href='index.htm'; return false;">Back To Home</a>
+  </div>
+  
+  <!-- Firebase Configuration -->
+  <script>
+    const firebaseConfig = {
+      apiKey: "AIzaSyApQj2Ac20NAGb3j520XNbFexiHLgKSzZM",
+      authDomain: "meela-store-96d3e.firebaseapp.com",
+      databaseURL: "https://meela-store-96d3e-default-rtdb.firebaseio.com",
+      projectId: "meela-store-96d3e",
+      storageBucket: "meela-store-96d3e.firebasestorage.app",
+      messagingSenderId: "409394421585",
+      appId: "1:409394421585:web:6ff1e528805b35f7857d70",
+      measurementId: "G-9ZHQLQQS71"
+    };
+    
+    try {
+      firebase.initializeApp(firebaseConfig);
+      window.db = firebase.firestore();
+      console.log('[LOGIN] Firebase initialized');
+    } catch (e) {
+      console.warn('[LOGIN] Firebase init failed', e);
+    }
+  </script>
+  
+  <script>
+    (function() {
+      'use strict';
+      
+      const FALLBACK_ADMIN_PASSWORD = 'meela-admin-123';
+      
+      // Role card selection
+      const roleCards = document.querySelectorAll('.role-card');
+      const roleRadios = document.querySelectorAll('input[name="role"]');
+      
+      roleCards.forEach(card => {
+        card.addEventListener('click', function() {
+          roleCards.forEach(c => c.classList.remove('selected'));
+          this.classList.add('selected');
+          this.querySelector('input[type="radio"]').checked = true;
+        });
+      });
+      
+      // Get selected role
+      function getSelectedRole() {
+        for (const radio of roleRadios) {
+          if (radio.checked) return radio.value;
+        }
+        return 'user';
+      }
+      
+      // Show message
+      function showMessage(text, type) {
+        const msgEl = document.getElementById('message');
+        msgEl.textContent = text;
+        msgEl.className = 'message ' + type;
+        msgEl.style.display = 'block';
+        
+        if (type === 'success') {
+          setTimeout(() => {
+            msgEl.style.display = 'none';
+          }, 3000);
+        }
+      }
+      
+      // Check if user is admin
+      async function checkIsAdmin(user) {
+        if (!window.db) {
+          console.warn('[LOGIN] Firestore not initialized');
+          return false;
+        }
+        try {
+          console.log('[LOGIN] Checking admin status for:', user.email, 'UID:', user.uid);
+          
+          // Method 1: Check by UID
+          const docRef = window.db.collection('admins').doc(user.uid);
+          const doc = await docRef.get();
+          console.log('[LOGIN] UID check - exists:', doc.exists);
+          if (doc && doc.exists) {
+            console.log('[LOGIN] Admin verified by UID');
+            return true;
+          }
+          
+          // Method 2: Check by email
+          const q = await window.db.collection('admins').where('email', '==', user.email || '').limit(1).get();
+          console.log('[LOGIN] Email check - found:', q.size, 'documents');
+          if (q && q.size > 0) {
+            console.log('[LOGIN] Admin verified by email');
+            return true;
+          }
+          
+          console.warn('[LOGIN] User not found in admins collection');
+        } catch (e) {
+          console.error('[LOGIN] checkIsAdmin error:', e);
+        }
+        return false;
+      }
+      
+      // Handle login
+      const loginForm = document.getElementById('login-form');
+      loginForm.addEventListener('submit', async function(e) {
+        e.preventDefault();
+        
+        const email = document.getElementById('email').value.trim();
+        const password = document.getElementById('password').value.trim();
+        const role = getSelectedRole();
+        
+        if (!email || !password) {
+          showMessage('Please enter both email and password', 'error');
+          return;
+        }
+        
+        showMessage('Signing in...', 'success');
+        
+        if (window.firebase && firebase.auth) {
+          try {
+            const userCred = await firebase.auth().signInWithEmailAndPassword(email, password);
+            const user = userCred.user;
+            
+            if (role === 'admin') {
+              const isAdmin = await checkIsAdmin(user);
+              if (!isAdmin) {
+                showMessage('Access denied: This account is not an admin', 'error');
+                await firebase.auth().signOut();
+                return;
+              }
+              
+              showMessage('Admin login successful! Redirecting...', 'success');
+              setTimeout(() => {
+                // Notify parent window if in iframe
+                if (window.parent && window.parent !== window) {
+                  window.parent.postMessage('loginSuccess', '*');
+                }
+                window.location.href = 'admin.html';
+              }, 1000);
+            } else {
+              showMessage('Login successful! Redirecting...', 'success');
+              setTimeout(() => {
+                window.location.href = 'products/hair-growth-oil.html';
+              }, 1000);
+            }
+          } catch (err) {
+            console.warn('[LOGIN] Firebase auth failed', err);
+            
+            // Fallback for admin
+            if (role === 'admin' && password === FALLBACK_ADMIN_PASSWORD) {
+              showMessage('Admin login successful! Redirecting...', 'success');
+              setTimeout(() => {
+                // Notify parent window if in iframe
+                if (window.parent && window.parent !== window) {
+                  window.parent.postMessage('loginSuccess', '*');
+                }
+                window.location.href = 'admin.html';
+              }, 1000);
+            } else {
+              showMessage('Authentication failed: ' + (err.message || 'Invalid credentials'), 'error');
+            }
+          }
+        } else {
+          // No Firebase - use fallback
+          if (role === 'admin' && password === FALLBACK_ADMIN_PASSWORD) {
+            showMessage('Admin login successful! Redirecting...', 'success');
+            setTimeout(() => {
+              // Notify parent window if in iframe
+              if (window.parent && window.parent !== window) {
+                window.parent.postMessage('loginSuccess', '*');
+              }
+              window.location.href = 'admin.html';
+            }, 1000);
+          } else {
+            showMessage('Firebase Auth not configured. Please set up Firebase to login.', 'error');
+          }
+        }
+      });
+    })();
+  </script>
+</body>
+</html>

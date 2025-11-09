@@ -1,0 +1,697 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Meela - Admin Panel</title>
+  <style>
+    @import url('https://fonts.cdnfonts.com/css/neue-haas-grotesk-display-pro');
+    
+    *{box-sizing:border-box}
+    body{
+      font-family:'Neue Haas Grotesk Text','Neue Haas Grotesk Display Pro',-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
+      margin:0;
+      background:#f6f3f0;
+      color:#3c3c3c;
+      font-weight:400;
+      font-size:16px;
+      line-height:1.6;
+      -webkit-font-smoothing:antialiased;
+      -moz-osx-font-smoothing:grayscale;
+    }
+    .container{max-width:1200px;margin:0 auto;padding:24px}
+    .header{
+      background:transparent;
+      padding:28px 36px;
+      margin-bottom:32px;
+      border-radius:0;
+      box-shadow:none;
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+    }
+    .header-left{
+      display:flex;
+      align-items:center;
+      gap:16px;
+    }
+    .header-logo{
+      height:40px;
+      width:auto;
+    }
+    .header h1{
+      margin:0;
+      font-size:28px;
+      font-weight:500;
+      color:#000;
+      letter-spacing:-0.8px;
+    }
+    .admin-badge{
+      margin:0;
+      font-size:24px;
+      font-weight:400;
+      color:#3c3c3c;
+      letter-spacing:0.5px;
+    }
+    .header .actions{display:flex;gap:16px;align-items:center}
+    .btn{
+      padding:12px 24px;
+      border-radius:0;
+      border:none;
+      cursor:pointer;
+      font-size:14px;
+      font-weight:400;
+      transition:all 0.3s ease;
+      font-family:inherit;
+      letter-spacing:0.5px;
+      text-transform:uppercase;
+    }
+    .btn-primary{
+      background:#3c3c3c;
+      color:#f6f3f0;
+      border:1px solid #3c3c3c;
+    }
+    .btn-primary:hover{
+      background:#000;
+      border-color:#000;
+      transform:none;
+      box-shadow:none;
+    }
+    .btn-ghost{
+      background:transparent;
+      border:1px solid #dedfdb;
+      color:#3c3c3c;
+    }
+    .btn-ghost:hover{
+      border-color:#939393;
+      background:#f0f0f0;
+    }
+    .btn-logout{
+      background:transparent;
+      color:#3c3c3c;
+      border:none;
+      width:40px;
+      height:40px;
+      padding:0;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      font-size:24px;
+      transition:all 0.3s ease;
+      cursor:pointer;
+    }
+    .btn-logout:hover{
+      color:#000;
+      background:transparent;
+      transform:scale(1.1);
+    }
+    .card{
+      background:#fff;
+      border-radius:0;
+      box-shadow:none;
+      overflow:hidden;
+      border:1px solid #dedfdb;
+    }
+    .card-header{
+      padding:24px 36px;
+      border-bottom:1px solid #dedfdb;
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      background:#fff;
+    }
+    .card-header h2{
+      margin:0;
+      font-size:14px;
+      font-weight:500;
+      color:#3c3c3c;
+      letter-spacing:0.5px;
+      text-transform:uppercase;
+    }
+    .card-body{padding:0}
+    table{width:100%;border-collapse:collapse}
+    th,td{
+      padding:20px 36px;
+      text-align:left;
+      font-size:14px;
+      border-bottom:1px solid #eee;
+    }
+    th{
+      background:#f0f0f0;
+      font-weight:600;
+      color:#939393;
+      text-transform:uppercase;
+      font-size:11px;
+      letter-spacing:1px;
+    }
+    td{color:#3c3c3c;font-weight:400}
+    tr:hover{background:#f6f3f0;transition:background 0.2s ease}
+    tr:last-child td{border-bottom:none}
+    .badge{
+      display:inline-block;
+      padding:6px 16px;
+      border-radius:0;
+      font-size:11px;
+      font-weight:500;
+      text-transform:uppercase;
+      letter-spacing:1px;
+    }
+    .badge-pending{background:#fef3c7;color:#92400e;border:none}
+    .badge-completed{background:#d1fae5;color:#065f46;border:none}
+    .badge-cancelled{background:#fee2e2;color:#991b1b;border:none}
+    .btn-action{
+      padding:10px 20px;
+      font-size:13px;
+      border-radius:0;
+      font-weight:400;
+      border:1px solid #dedfdb;
+      background:#fff;
+      color:#3c3c3c;
+      letter-spacing:0.5px;
+    }
+    .btn-action:hover{
+      background:#3c3c3c;
+      color:#f6f3f0;
+      border-color:#3c3c3c;
+    }
+    .modal-overlay{
+      position:fixed;
+      left:0;
+      top:0;
+      width:100%;
+      height:100%;
+      background:rgba(0,0,0,0.6);
+      display:none;
+      align-items:center;
+      justify-content:center;
+      z-index:9999;
+      backdrop-filter:blur(4px);
+      -webkit-backdrop-filter:blur(4px);
+    }
+    .modal-overlay.active{display:flex}
+    .modal{
+      background:#fff;
+      border-radius:0;
+      max-width:700px;
+      width:95%;
+      max-height:85vh;
+      overflow:auto;
+      box-shadow:0 25px 70px rgba(0,0,0,0.4);
+      animation:modalFadeIn 0.3s ease;
+      border:1px solid #dedfdb;
+    }
+    @keyframes modalFadeIn{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+    .modal-header{
+      padding:28px 36px;
+      border-bottom:1px solid #dedfdb;
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      background:#f0f0f0;
+    }
+    .modal-header h2{
+      margin:0;
+      font-size:18px;
+      font-weight:600;
+      color:#000;
+      letter-spacing:-0.3px;
+      text-transform:uppercase;
+      font-size:13px;
+    }
+    .modal-close{
+      background:transparent;
+      border:none;
+      font-size:24px;
+      color:#939393;
+      cursor:pointer;
+      line-height:1;
+      padding:0;
+      width:32px;
+      height:32px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      border-radius:0;
+      transition:all 0.2s ease;
+    }
+    .modal-close:hover{background:#eee;color:#000}
+    .modal-body{padding:36px}
+    .detail-section{margin-bottom:36px}
+    .detail-section:last-child{margin-bottom:0}
+    .detail-section h3{
+      font-size:14px;
+      font-weight:500;
+      margin:0 0 20px;
+      color:#3c3c3c;
+      border-bottom:1px solid #dedfdb;
+      padding-bottom:12px;
+      letter-spacing:1px;
+      text-transform:uppercase;
+    }
+    .detail-row{
+      display:flex;
+      padding:14px 0;
+      border-bottom:1px solid #eee;
+    }
+    .detail-row:last-child{border-bottom:none}
+    .detail-label{
+      font-weight:400;
+      color:#939393;
+      min-width:140px;
+      font-size:14px;
+      letter-spacing:0.3px;
+    }
+    .detail-value{
+      color:#3c3c3c;
+      font-size:14px;
+      flex:1;
+      font-weight:400;
+    }
+    .items-table{width:100%;margin-top:20px;border-radius:0;overflow:hidden;border:1px solid #dedfdb}
+    .items-table th{background:#fff;padding:16px;font-size:12px;font-weight:500;color:#3c3c3c;text-transform:uppercase;letter-spacing:1px}
+    .items-table td{padding:16px;font-size:14px;border-bottom:1px solid #eee}
+    .total-row{background:#f0f0f0;font-weight:600;font-size:15px}
+    .empty-state{text-align:center;padding:80px 20px;color:#939393}
+    .empty-state svg{margin-bottom:24px;opacity:0.5}
+    .search-bar{
+      padding:24px 36px;
+      border-bottom:1px solid #dedfdb;
+      display:flex;
+      gap:16px;
+      background:#f0f0f0;
+    }
+    .search-input{
+      flex:1;
+      padding:14px 20px;
+      border:1px solid #dedfdb;
+      border-radius:0;
+      font-size:14px;
+      font-family:inherit;
+      transition:all 0.2s ease;
+      background:#fff;
+      color:#3c3c3c;
+    }
+    .search-input:focus{
+      outline:none;
+      border-color:#000;
+      box-shadow:none;
+    }
+    .search-input::placeholder{color:#939393;font-weight:400}
+    .hidden{display:none}
+    @media(max-width:768px){
+      .container{padding:16px}
+      th,td{padding:14px 20px;font-size:13px}
+      .header{
+        flex-direction:column;
+        gap:16px;
+        align-items:stretch;
+        padding:20px;
+      }
+      .header-left{
+        align-items:flex-start;
+      }
+      .header-logo{height:32px}
+      .header h1{font-size:22px}
+      .admin-badge{font-size:20px}
+      .header .actions{
+        justify-content:space-between;
+        flex-direction:row;
+      }
+      .search-bar{flex-direction:column;padding:20px}
+      .card-header{padding:20px}
+      .modal-body{padding:24px}
+      .detail-section h3{font-size:15px}
+    }
+  </style>
+  <!-- Firebase (compat) -->
+  <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-storage-compat.js"></script>
+</head>
+<body>
+  <!-- Admin Panel -->
+  <div id="app">
+    <div class="container">
+      <!-- Header -->
+      <div class="header">
+        <div class="header-left">
+          <img src="//www.meelaherbals.com/cdn/shop/files/meela_logo_text.png?v=1750031394&width=600" 
+               alt="MEELA" 
+               class="header-logo">
+        </div>
+        <div class="actions">
+          <span class="admin-badge">Admin Panel</span>
+          <button id="close-btn" class="btn btn-logout" title="Close">✕</button>
+        </div>
+      </div>
+
+      <!-- Image Upload Section -->
+      <div class="card" style="margin-bottom:32px">
+        <div class="card-header">
+          <h2>Product Image Gallery</h2>
+          <button id="upload-image-btn" class="btn btn-primary">📤 Upload Image</button>
+        </div>
+        
+
+        
+        <div class="card-body" style="padding:36px">
+          <div id="image-gallery" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:20px;min-height:200px">
+            <div style="grid-column:1/-1;text-align:center;color:#939393;padding:40px">
+              No images uploaded yet
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Carousel Slide Images Section -->
+      <div class="card" style="margin-bottom:32px">
+        <div class="card-header">
+          <h2>Carousel Slide Images</h2>
+          <p style="color:#939393;font-size:14px;margin:8px 0 0 0">Manage Carousel Slides</p>
+        </div>
+        
+        <div class="card-body" style="padding:36px">
+          <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:24px">
+            
+            <!-- Slide 1 -->
+            <div style="border:1px solid #dedfdb;padding:20px;background:#fff">
+              <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">
+                <h3 style="margin:0;font-size:16px;font-weight:500;color:#3c3c3c">Slide 1</h3>
+                <span style="font-size:12px;color:#939393">Hair Growth Oil</span>
+              </div>
+              <div id="carousel-preview-1" style="width:100%;height:200px;background:#f6f3f0;border:1px dashed #dedfdb;display:flex;align-items:center;justify-content:center;margin-bottom:12px;overflow:hidden">
+                <img id="carousel-img-1" src="product1.png" style="max-width:100%;max-height:100%;object-fit:contain" onerror="this.style.display='none';this.nextElementSibling.style.display='block'">
+                <span style="color:#939393;display:none">No image</span>
+              </div>
+              <input type="file" id="carousel-file-1" accept="image/*" style="display:none">
+              <button onclick="document.getElementById('carousel-file-1').click()" class="btn btn-primary" style="width:100%;font-size:13px;padding:10px">Change Image</button>
+            </div>
+
+            <!-- Slide 2 -->
+            <div style="border:1px solid #dedfdb;padding:20px;background:#fff">
+              <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">
+                <h3 style="margin:0;font-size:16px;font-weight:500;color:#3c3c3c">Slide 2</h3>
+                <span style="font-size:12px;color:#939393">Ayurvedic Face Pack</span>
+              </div>
+              <div id="carousel-preview-2" style="width:100%;height:200px;background:#f6f3f0;border:1px dashed #dedfdb;display:flex;align-items:center;justify-content:center;margin-bottom:12px;overflow:hidden">
+                <img id="carousel-img-2" src="product2.png" style="max-width:100%;max-height:100%;object-fit:contain" onerror="this.style.display='none';this.nextElementSibling.style.display='block'">
+                <span style="color:#939393;display:none">No image</span>
+              </div>
+              <input type="file" id="carousel-file-2" accept="image/*" style="display:none">
+              <button onclick="document.getElementById('carousel-file-2').click()" class="btn btn-primary" style="width:100%;font-size:13px;padding:10px">Change Image</button>
+            </div>
+
+            <!-- Slide 3 -->
+            <div style="border:1px solid #dedfdb;padding:20px;background:#fff">
+              <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">
+                <h3 style="margin:0;font-size:16px;font-weight:500;color:#3c3c3c">Slide 3</h3>
+                <span style="font-size:12px;color:#939393">Kumkumadi Thailam</span>
+              </div>
+              <div id="carousel-preview-3" style="width:100%;height:200px;background:#f6f3f0;border:1px dashed #dedfdb;display:flex;align-items:center;justify-content:center;margin-bottom:12px;overflow:hidden">
+                <img id="carousel-img-3" src="product4.png" style="max-width:100%;max-height:100%;object-fit:contain" onerror="this.style.display='none';this.nextElementSibling.style.display='block'">
+                <span style="color:#939393;display:none">No image</span>
+              </div>
+              <input type="file" id="carousel-file-3" accept="image/*" style="display:none">
+              <button onclick="document.getElementById('carousel-file-3').click()" class="btn btn-primary" style="width:100%;font-size:13px;padding:10px">Change Image</button>
+            </div>
+
+            <!-- Slide 4 -->
+            <div style="border:1px solid #dedfdb;padding:20px;background:#fff">
+              <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">
+                <h3 style="margin:0;font-size:16px;font-weight:500;color:#3c3c3c">Slide 4</h3>
+                <span style="font-size:12px;color:#939393">Glow Day Cream</span>
+              </div>
+              <div id="carousel-preview-4" style="width:100%;height:200px;background:#f6f3f0;border:1px dashed #dedfdb;display:flex;align-items:center;justify-content:center;margin-bottom:12px;overflow:hidden">
+                <img id="carousel-img-4" src="product3.png" style="max-width:100%;max-height:100%;object-fit:contain" onerror="this.style.display='none';this.nextElementSibling.style.display='block'">
+                <span style="color:#939393;display:none">No image</span>
+              </div>
+              <input type="file" id="carousel-file-4" accept="image/*" style="display:none">
+              <button onclick="document.getElementById('carousel-file-4').click()" class="btn btn-primary" style="width:100%;font-size:13px;padding:10px">Change Image</button>
+            </div>
+
+          </div>
+        </div>
+      </div>
+
+      <!-- Purchase History Card -->
+      <div class="card">
+        <div class="card-header">
+          <h2>Purchase History</h2>
+          <span id="order-count" style="color:#939393;font-size:14px;font-weight:400">0 orders</span>
+        </div>
+        
+
+        
+        <!-- Search Bar -->
+        <div class="search-bar">
+          <input id="search-input" class="search-input" placeholder="🔍 Search by Order ID, Name, Email or Phone...">
+        </div>
+        
+        <!-- Table -->
+        <div class="card-body">
+          <table id="orders-table">
+            <thead>
+              <tr>
+                <th>Order ID</th>
+                <th>Customer</th>
+                <th>Email</th>
+                <th>Phone</th>
+                <th>Total</th>
+                <th>Date</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody id="orders-tbody">
+              <tr>
+                <td colspan="7" class="empty-state">
+                  <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <circle cx="12" cy="12" r="10"></circle>
+                    <line x1="12" y1="8" x2="12" y2="12"></line>
+                    <line x1="12" y1="16" x2="12.01" y2="16"></line>
+                  </svg>
+                  <div>No orders found</div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Order Details Modal -->
+  <div id="modal-overlay" class="modal-overlay">
+    <div class="modal">
+      <div class="modal-header">
+        <h2>Order Details</h2>
+        <button class="modal-close" id="modal-close-btn">&times;</button>
+      </div>
+      <div class="modal-body" id="modal-body">
+        <!-- Content will be injected here -->
+      </div>
+    </div>
+  </div>
+
+  <!-- Image Upload Modal -->
+  <div id="upload-modal-overlay" class="modal-overlay">
+    <div class="modal">
+      <div class="modal-header">
+        <h2>Upload Product Image</h2>
+        <button class="modal-close" id="upload-modal-close-btn">&times;</button>
+      </div>
+      <div class="modal-body">
+        <form id="upload-form">
+          <div style="margin-bottom:20px">
+            <label style="display:block;margin-bottom:8px;font-weight:500;color:#3c3c3c">Image Title</label>
+            <input type="text" id="image-title" placeholder="Enter image title" required style="width:100%;padding:12px;border:1px solid #dedfdb;font-size:14px;font-family:inherit;border-radius:0">
+          </div>
+          <div style="margin-bottom:20px">
+            <label style="display:block;margin-bottom:8px;font-weight:500;color:#3c3c3c">Select Image</label>
+            <input type="file" id="image-file" accept="image/*" required style="width:100%;padding:12px;border:1px solid #dedfdb;font-size:14px;font-family:inherit;border-radius:0;background:#fff">
+          </div>
+          <div id="image-preview" style="margin-bottom:20px;display:none">
+            <label style="display:block;margin-bottom:8px;font-weight:500;color:#3c3c3c">Preview</label>
+            <img id="preview-img" style="max-width:100%;max-height:300px;border:1px solid #dedfdb">
+          </div>
+          <div style="display:flex;gap:12px">
+            <button type="submit" class="btn btn-primary" style="flex:1">Upload</button>
+            <button type="button" id="upload-cancel-btn" class="btn btn-ghost" style="flex:1">Cancel</button>
+          </div>
+          <div id="upload-progress" style="margin-top:20px;display:none">
+            <div style="background:#f0f0f0;height:8px;border-radius:4px;overflow:hidden">
+              <div id="progress-bar" style="background:#000;height:100%;width:0%;transition:width 0.3s"></div>
+            </div>
+            <p id="upload-status" style="text-align:center;margin-top:8px;font-size:14px;color:#3c3c3c"></p>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- Login Modal Overlay -->
+  <div id="admin-login-modal" style="display: block; position: fixed; top: 0; left: 0; width: 100%; height: 100vh; background: rgba(0, 0, 0, 0.7); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); z-index: 99999; overflow: hidden;">
+    <div style="width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; padding: 20px;">
+      <div style="width: 100%; max-width: 500px; height: 90vh; background: white; border-radius: 12px; overflow: hidden; box-shadow: 0 20px 60px rgba(0,0,0,0.3);">
+        <iframe src="login.html" style="width: 100%; height: 100%; border: none;"></iframe>
+      </div>
+    </div>
+  </div>
+
+  <!-- Firebase configuration (copied from product page) -->
+  <script>
+    // Replace with your Firebase project configuration if different
+    const firebaseConfig = {
+      apiKey: "AIzaSyApQj2Ac20NAGb3j520XNbFexiHLgKSzZM",
+      authDomain: "meela-store-96d3e.firebaseapp.com",
+      databaseURL: "https://meela-store-96d3e-default-rtdb.firebaseio.com",
+      projectId: "meela-store-96d3e",
+      storageBucket: "meela-store-96d3e.firebasestorage.app",
+      messagingSenderId: "409394421585",
+      appId: "1:409394421585:web:6ff1e528805b35f7857d70",
+      measurementId: "G-9ZHQLQQS71"
+    };
+    try {
+      firebase.initializeApp(firebaseConfig);
+      window.db = firebase.firestore();
+      window.storage = firebase.storage();
+      window.auth = firebase.auth();
+      console.log('[FIREBASE] Initialized (admin) - Firestore, Storage & Auth ready');
+      
+      // Sign in anonymously for admin access (or use email/password)
+      // For testing, we'll sign in anonymously which satisfies "request.auth != null"
+      firebase.auth().signInAnonymously()
+        .then(() => {
+          console.log('[FIREBASE] Signed in anonymously for admin access');
+          const user = firebase.auth().currentUser;
+          if (user) {
+            console.log('[FIREBASE] User authenticated:', user.uid);
+          }
+        })
+        .catch((error) => {
+          console.error('[FIREBASE] Auth error:', error.code, error.message);
+          // Removed alert popup - Cloudinary doesn't need Firebase auth
+        });
+        
+    } catch (e) {
+      console.warn('[FIREBASE] init (admin) failed', e);
+    }
+  </script>
+
+  <!-- Show/Hide login modal script -->
+  <script>
+    (function() {
+      const modal = document.getElementById('admin-login-modal');
+      const appContent = document.getElementById('app');
+      
+      // Initially blur the main content
+      if (appContent) {
+        appContent.style.filter = 'blur(8px)';
+        appContent.style.pointerEvents = 'none';
+      }
+      
+      // Listen for successful login message from iframe
+      window.addEventListener('message', function(event) {
+        if (event.data === 'loginSuccess') {
+          // Remove blur and hide modal on successful login
+          if (appContent) {
+            appContent.style.filter = 'none';
+            appContent.style.pointerEvents = 'auto';
+          }
+          if (modal) {
+            modal.style.display = 'none';
+          }
+        }
+      });
+    })();
+  </script>
+
+  <!-- Carousel Image Upload Handlers -->
+  <script>
+    (function() {
+      // Handle carousel slide image uploads
+      const carouselSlides = [
+        { id: 1, file: 'carousel-file-1', img: 'carousel-img-1', preview: 'carousel-preview-1', default: 'product1.png' },
+        { id: 2, file: 'carousel-file-2', img: 'carousel-img-2', preview: 'carousel-preview-2', default: 'product2.png' },
+        { id: 3, file: 'carousel-file-3', img: 'carousel-img-3', preview: 'carousel-preview-3', default: 'product4.png' },
+        { id: 4, file: 'carousel-file-4', img: 'carousel-img-4', preview: 'carousel-preview-4', default: 'product3.png' }
+      ];
+
+      // Load saved carousel images from localStorage
+      function loadCarouselImages() {
+        carouselSlides.forEach(slide => {
+          const savedImage = localStorage.getItem(`carousel-slide-${slide.id}`);
+          if (savedImage) {
+            const imgElement = document.getElementById(slide.img);
+            if (imgElement) {
+              imgElement.src = savedImage;
+              imgElement.style.display = 'block';
+              const noImageText = imgElement.nextElementSibling;
+              if (noImageText) noImageText.style.display = 'none';
+            }
+          }
+        });
+      }
+
+      // Handle file input change for each slide
+      carouselSlides.forEach(slide => {
+        const fileInput = document.getElementById(slide.file);
+        if (fileInput) {
+          fileInput.addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            if (file && file.type.startsWith('image/')) {
+              const reader = new FileReader();
+              
+              reader.onload = function(event) {
+                const imageDataUrl = event.target.result;
+                
+                // Update preview in admin panel
+                const imgElement = document.getElementById(slide.img);
+                if (imgElement) {
+                  imgElement.src = imageDataUrl;
+                  imgElement.style.display = 'block';
+                  const noImageText = imgElement.nextElementSibling;
+                  if (noImageText) noImageText.style.display = 'none';
+                }
+                
+                // Save to localStorage
+                localStorage.setItem(`carousel-slide-${slide.id}`, imageDataUrl);
+                
+                // Update the actual carousel in index.htm via message passing
+                // This allows real-time updates if both pages are open
+                const message = {
+                  type: 'updateCarouselImage',
+                  slideId: slide.id,
+                  imageUrl: imageDataUrl
+                };
+                
+                // Try to communicate with index.htm if it's open in another tab/window
+                try {
+                  localStorage.setItem('carousel-update-trigger', JSON.stringify({
+                    ...message,
+                    timestamp: Date.now()
+                  }));
+                } catch (err) {
+                  console.warn('Could not trigger carousel update:', err);
+                }
+                
+                // Show success message
+                alert(`Slide ${slide.id} image updated successfully! The homepage carousel will reflect this change.`);
+              };
+              
+              reader.readAsDataURL(file);
+            } else {
+              alert('Please select a valid image file.');
+            }
+          });
+        }
+      });
+
+      // Load images on page load
+      loadCarouselImages();
+    })();
+  </script>
+
+  <script src="admin.js"></script>
+</body>
+</html>
