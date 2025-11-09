@@ -1,0 +1,63 @@
+# Ignore system files
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Ignore IDE files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Ignore logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Ignore temporary files
+*.tmp
+*.temp
+.cache/
+
+# Ignore backup files
+*.bak
+*.backup
+*~
+
+# Ignore environment files with sensitive data
+.env
+.env.local
+.env.production
+config.local.js
+
+# Ignore node_modules if you add npm later
+node_modules/
+package-lock.json
+yarn.lock
+
+# Ignore build outputs
+dist/
+build/
+*.min.js.map
+*.min.css.map
+
+# Ignore OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Ignore Firebase local files
+.firebase/
+firebase-debug.log
+firestore-debug.log
+
+# Keep important directories
+!cdn/
+!assets/
+!products/
