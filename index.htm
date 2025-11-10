@@ -2383,23 +2383,6 @@ Order now via DM, WhatsApp +91 91888 55551, or visit www.meelaherbals.com
                                   class='w-full  opacity-0 pointer-events-none  group-hover:pointer-events-auto transition-opacity duration-200 ease group-hover:opacity-100 absolute bottom-0 '>
 
 
-                                  <div class='product__reviews w-full pb-5'>
-                                    <div id='main-review-summary' class='flex items-center'>
-                                      <svg xmlns='http://www.w3.org/2000/svg' width='15' height='14' viewbox='0 0 15 14'
-                                        fill='none'>
-                                        <path
-                                          d="M7.5 0L9.18386 5.18237H14.6329L10.2245 8.38525L11.9084 13.5676L7.5 10.3647L3.09161 13.5676L4.77547 8.38525L0.367076 5.18237H5.81614L7.5 0Z"
-                                          fill="currentColor"></path>
-                                      </svg>
-                                      &nbsp;
-                                      <span class='text-body card-review-summary__rating'> 5.0 </span>
-                                      <span>&nbsp;—&nbsp;</span>
-                                      <span class='card-review-summary__count'> 1 </span>&nbsp;
-                                      <span class='text-body'> Reviews </span>
-                                    </div>
-                                  </div>
-
-
                                   <quick-add-button class=''>
                                     <form method="post" action="/cart/add" accept-charset="UTF-8" class="w-full"
                                       enctype="multipart/form-data" novalidate="novalidate"
@@ -2972,17 +2955,18 @@ Order now via DM, WhatsApp +91 91888 55551, or visit www.meelaherbals.com
       class="shopify-section section--faq-section">
       <div class='tw-container--fluid section-padding - section-padding--reduce-bottom'>
         <div class='tw-row'>
-          <div class='tw-col w-full md:w-6/12 sticky top-0 md:relative bg-background z-10'>
-            <div class='md:sticky md:top-80 md:left-0'>
+          <div class='tw-col w-full md:w-6/12 md:relative bg-transparent z-10' style='border: none; border-top: none; border-bottom: none; font-family: "Neue Haas Grotesk Text", sans-serif;'>
+            <div class='md:relative md:top-0 md:left-0' style='border: none; font-family: "Neue Haas Grotesk Text", sans-serif;'>
 
               <!-- Mobile accordion wrapper -->
-              <accordian-block class='block md:hidden'>
+              <accordian-block class='block md:hidden' style='border: none; border-top: none; border-bottom: none;'>
                 <button
-                  class='accordian__trigger --open-desktop w-full text-left font-medium uppercase py-15 border-b border-gray-200 --hidden-desktop'
+                  class='accordian__trigger --open-desktop w-full text-left font-medium uppercase py-15 --hidden-desktop'
+                  style='font-family: "Neue Haas Grotesk Text", sans-serif; border: none;'
                   data-target='#faq-menu-template--18581858910406__faq_section_kQLRhz' aria-expanded='false'
                   type='button'>
                   <span class='flex justify-between items-center w-full'>
-                    <span class='accordian__heading'>Menu</span>
+                    <span class='accordian__heading' style='font-family: "Neue Haas Grotesk Text", sans-serif;'>Menu</span>
                     <span class='accordian__trigger__inactive-text'>+</span>
                     <span class='accordian__trigger__active-text'>-</span>
                   </span>
@@ -3603,103 +3587,125 @@ Order now via DM, WhatsApp +91 91888 55551, or visit www.meelaherbals.com
   </div>
 </section>
 
-    <!-- Customer Reviews Section -->
+    <!-- Custom Sticky Shop Section Styling -->
     <style>
-      /* Review Cards Container - Single line with minimal gaps */
-      #reviews-wrapper {
-        display: flex;
-        flex-wrap: nowrap;
-        gap: 15px;
-        padding-left: 40px;
-        margin-top: 20px;
-        overflow-x: auto;
+      /* Remove all borders from sticky section */
+      .sticky.top-0,
+      .sticky .accordian-block,
+      .sticky .accordian__trigger,
+      .sticky accordian-block {
+        border: none !important;
+        border-top: none !important;
+        border-bottom: none !important;
+        font-family: 'Neue Haas Grotesk Text', sans-serif !important;
       }
       
-      /* Review Card - Matching Yotpo carousel item */
+      /* Apply font to all elements in sticky section */
+      .sticky * {
+        font-family: 'Neue Haas Grotesk Text', sans-serif !important;
+      }
+    </style>
+
+    <!-- Customer Reviews Section -->
+    <style>
+      /* Review Cards Container - Grid layout */
+      #reviews-wrapper {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+        gap: 40px;
+        margin-top: 30px;
+      }
+      
+      /* Review Card - Horizontal layout like image */
       .review-card {
-        flex: 0 0 auto;
-        width: 280px;
-        display: block;
+        background: transparent;
+        border: none;
+        border-bottom: none;
+        padding: 0;
+        border-radius: 0;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
         position: relative;
         transition: all 0.3s ease;
       }
       
       .review-card:hover {
-        opacity: 0.8;
+        background: transparent;
       }
       
-      /* Single content container with all elements stacked */
-      .review-card__content {
-        position: relative;
-        background: #f6f3f0;
+      /* Header with name and stars */
+      .review-card__header {
         display: flex;
-        align-items: center;
-        justify-content: center;
-        flex-direction: column;
-        padding: 40px 20px 20px 20px;
-        overflow: hidden;
+        justify-content: space-between;
+        align-items: flex-start;
       }
       
-      .review-card__avatar {
-        width: 80px;
-        height: 80px;
-        background-color: #3c3c3c;
-        border-radius: 50%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        color: #ffffff;
-        font-size: 28px;
-        font-weight: bold;
-        margin-bottom: 20px;
+      .review-card__name {
+        font-size: 12px;
+        font-weight: 400;
+        color: #000;
+        font-family: Arial, Helvetica, sans-serif;
       }
       
       .review-card__stars {
         display: flex;
-        gap: 5px;
-        font-size: 18px;
-        color: #FFD700;
-        margin-bottom: 15px;
+        gap: 2px;
+        font-size: 14px;
+        color: #000;
       }
       
-      .review-card__name {
-        font-size: 14px;
-        font-weight: 500;
-        color: #3c3c3c;
-        text-transform: uppercase;
-        letter-spacing: 0.5px;
-        font-family: var(--font-body);
-        margin-bottom: 5px;
-        text-align: center;
+      /* Title of review */
+      .review-card__title {
+        font-size: 12px;
+        font-weight: 600;
+        color: #000;
+        font-family: Arial, Helvetica, sans-serif;
+        margin: 0;
+        line-height: 1.4;
+      }
+      
+      /* Review text */
+      .review-card__text {
+        font-size: 11px;
+        line-height: 1.5;
+        color: #4d4d4d;
+        font-family: Arial, Helvetica, sans-serif;
+        margin: 0;
+        font-weight: 400;
+      }
+      
+      /* Footer with verified buyer and date */
+      .review-card__footer {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-top: 4px;
+        padding-top: 0;
+        border-top: none;
+      }
+      
+      .review-card__verified {
+        font-size: 10px;
+        color: #808080;
+        font-family: Arial, Helvetica, sans-serif;
+        font-weight: 400;
       }
       
       .review-card__date {
-        font-size: 12px;
-        color: #999;
-        font-family: var(--font-body);
-        text-align: center;
-        margin-bottom: 15px;
+        font-size: 10px;
+        color: #808080;
+        font-family: Arial, Helvetica, sans-serif;
+        font-weight: 400;
       }
       
-      .review-card__text {
-        font-size: 14px;
-        line-height: 1.6;
-        color: #3c3c3c;
-        margin-bottom: 15px;
-        font-family: var(--font-body);
-        display: block;
-        text-align: center;
-        text-transform: none;
-        font-weight: normal;
-      }
-      
-      /* Action buttons - centered with no background/border */
+      /* Action buttons */
       .review-card__actions {
         display: flex;
-        gap: 10px;
+        gap: 15px;
+        margin-top: 10px;
         opacity: 0;
         transition: opacity 0.3s ease;
-        justify-content: center;
       }
       
       .review-card:hover .review-card__actions {
@@ -3707,35 +3713,36 @@ Order now via DM, WhatsApp +91 91888 55551, or visit www.meelaherbals.com
       }
       
       .review-card__btn {
-        padding: 8px 15px;
-        font-size: 11px;
+        padding: 6px 12px;
+        font-size: 12px;
         font-weight: 500;
-        text-transform: uppercase;
-        letter-spacing: 0.5px;
-        border: none;
-        background: none;
+        border: 1px solid #ddd;
+        background: #fff;
         cursor: pointer;
         transition: all 0.3s ease;
         font-family: var(--font-body);
-        color: #3c3c3c;
+        color: #333;
+        border-radius: 3px;
       }
       
       .review-card__btn--edit {
-        color: #3c3c3c;
+        border-color: #4CAF50;
+        color: #4CAF50;
       }
       
       .review-card__btn--edit:hover {
-        color: #000000;
-        text-decoration: underline;
+        background: #4CAF50;
+        color: #fff;
       }
       
       .review-card__btn--delete {
-        color: #d9534f;
+        border-color: #f44336;
+        color: #f44336;
       }
       
       .review-card__btn--delete:hover {
-        color: #c9302c;
-        text-decoration: underline;
+        background: #f44336;
+        color: #fff;
       }
       
       #cancel-edit-btn {
@@ -3743,21 +3750,49 @@ Order now via DM, WhatsApp +91 91888 55551, or visit www.meelaherbals.com
         vertical-align: middle;
       }
       
-      /* Responsive adjustments */
-      @media (max-width: 1024px) {
-        #reviews-wrapper {
-          padding-left: 20px;
-        }
+      /* Rating summary at top */
+      .rating-summary {
+        display: flex;
+        align-items: center;
+        gap: 15px;
+        margin-bottom: 30px;
+        padding: 0;
+        background: transparent;
+        border: none;
+        border-radius: 0;
       }
       
-      @media (max-width: 640px) {
+      .rating-summary__score {
+        font-size: 36px;
+        font-weight: 700;
+        color: #000;
+      }
+      
+      .rating-summary__stars {
+        font-size: 20px;
+        color: #000;
+      }
+      
+      .rating-summary__text {
+        font-size: 12px;
+        color: #666;
+      }
+      
+      /* Reviews heading */
+      .reviews-heading {
+        font-size: 14px;
+        font-weight: 700;
+        color: #000;
+        font-family: Arial, Helvetica, sans-serif;
+        margin: 0 0 20px 0;
+        text-transform: none;
+        letter-spacing: 0;
+      }
+      
+      /* Responsive adjustments */
+      @media (max-width: 768px) {
         #reviews-wrapper {
-          padding-left: 15px;
-          flex-wrap: wrap;
-        }
-        
-        .review-card {
-          width: calc(100% - 30px);
+          grid-template-columns: 1fr;
         }
       }
     </style>
@@ -3849,9 +3884,24 @@ Order now via DM, WhatsApp +91 91888 55551, or visit www.meelaherbals.com
 
           <!-- Reviews Display -->
           <div id='reviews-container' style='margin-top:0px;'>
-            <div class='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-30' id='reviews-wrapper'>
+            <!-- Rating Summary -->
+            <div class='rating-summary'>
+              <div>
+                <div class='rating-summary__score' id='average-rating'>4.9</div>
+              </div>
+              <div>
+                <div class='rating-summary__stars' id='summary-stars'>★★★★★</div>
+                <div class='rating-summary__text' id='review-count-text'>16 reviews</div>
+              </div>
+            </div>
+            
+            <!-- Reviews Heading -->
+            <h3 class='reviews-heading'>Reviews</h3>
+            
+            <!-- Reviews Grid -->
+            <div id='reviews-wrapper'>
               <!-- Reviews will be loaded here dynamically -->
-              <div id='reviews-loading' class='w-full text-center py-40 col-span-full'>
+              <div id='reviews-loading' class='w-full text-center py-40' style='grid-column: 1/-1;'>
                 <p class='text-base' style='color: #3c3c3c;'>Loading reviews...</p>
               </div>
             </div>
@@ -5102,15 +5152,20 @@ Order now via DM, WhatsApp +91 91888 55551, or visit www.meelaherbals.com
           
           if (snapshot.empty) {
             reviewsWrapper.innerHTML = `
-              <div class="col-span-full text-center py-40">
+              <div style="grid-column: 1/-1; text-align: center; padding: 40px;">
                 <p class="text-base" style="color: #3c3c3c;">No reviews yet. Be the first to review!</p>
               </div>
             `;
+            // Update summary
+            updateRatingSummary(0, 0);
             return;
           }
           
-          // Display reviews (filter approved ones client-side)
+          // Calculate ratings and display reviews
+          let totalRating = 0;
+          let reviewCount = 0;
           let hasReviews = false;
+          
           snapshot.forEach(doc => {
             const review = doc.data();
             // Only show approved reviews
@@ -5118,25 +5173,55 @@ Order now via DM, WhatsApp +91 91888 55551, or visit www.meelaherbals.com
               const reviewCard = createReviewCard(review, doc.id);
               reviewsWrapper.insertAdjacentHTML('beforeend', reviewCard);
               hasReviews = true;
+              totalRating += review.rating || 0;
+              reviewCount++;
             }
           });
+          
+          // Update rating summary
+          if (reviewCount > 0) {
+            const avgRating = (totalRating / reviewCount).toFixed(1);
+            updateRatingSummary(avgRating, reviewCount);
+          }
           
           // If no approved reviews found
           if (!hasReviews) {
             reviewsWrapper.innerHTML = `
-              <div class="col-span-full text-center py-40">
+              <div style="grid-column: 1/-1; text-align: center; padding: 40px;">
                 <p class="text-base" style="color: #3c3c3c;">No reviews yet. Be the first to review!</p>
               </div>
             `;
+            updateRatingSummary(0, 0);
           }
           
         } catch (error) {
           console.error('Error loading reviews:', error);
           reviewsWrapper.innerHTML = `
-            <div class="col-span-full text-center py-40">
+            <div style="grid-column: 1/-1; text-align: center; padding: 40px;">
               <p class="text-base" style="color: #3c3c3c;">Error loading reviews. Please try again later.</p>
             </div>
           `;
+        }
+      }
+      
+      // Update Rating Summary
+      function updateRatingSummary(avgRating, count) {
+        const avgRatingEl = document.getElementById('average-rating');
+        const summaryStarsEl = document.getElementById('summary-stars');
+        const reviewCountEl = document.getElementById('review-count-text');
+        
+        if (avgRatingEl) {
+          avgRatingEl.textContent = avgRating > 0 ? avgRating : '0.0';
+        }
+        
+        if (summaryStarsEl) {
+          const fullStars = Math.floor(avgRating);
+          const stars = '★'.repeat(fullStars) + '☆'.repeat(5 - fullStars);
+          summaryStarsEl.textContent = stars;
+        }
+        
+        if (reviewCountEl) {
+          reviewCountEl.textContent = `${count} review${count !== 1 ? 's' : ''}`;
         }
       }
       
@@ -5149,42 +5234,44 @@ Order now via DM, WhatsApp +91 91888 55551, or visit www.meelaherbals.com
           day: 'numeric'
         }) : 'Just now';
         
+        // Extract title from review text (first line or first 50 chars)
+        const reviewLines = escapeHtml(review.review).split('\n');
+        const title = reviewLines[0].length > 50 ? reviewLines[0].substring(0, 50) + '...' : reviewLines[0];
+        const fullText = escapeHtml(review.review);
+        
         return `
           <div class="review-card" data-review-id="${docId}">
-            
-            <!-- All elements stacked in single container -->
-            <div class="review-card__content">
-              <div class="review-card__avatar">
-                ${escapeHtml(review.name.charAt(0).toUpperCase())}
-              </div>
-              <div class="review-card__stars">
-                ${stars}
-              </div>
-              <div class="review-card__name">
-                ${escapeHtml(review.name)}
-              </div>
-              <div class="review-card__date">
-                ${date}
-              </div>
-              <div class="review-card__text">
-                ${escapeHtml(review.review)}
-              </div>
-              
-              <!-- Action Buttons -->
-              <div class="review-card__actions">
-                <button 
-                  onclick="editReview('${docId}', ${JSON.stringify(escapeHtml(review.name)).replace(/"/g, '&quot;')}, '${review.email}', ${review.rating}, ${JSON.stringify(escapeHtml(review.review)).replace(/"/g, '&quot;')})"
-                  class="review-card__btn review-card__btn--edit">
-                  Edit
-                </button>
-                <button 
-                  onclick="deleteReview('${docId}')"
-                  class="review-card__btn review-card__btn--delete">
-                  Delete
-                </button>
-              </div>
+            <!-- Header with name and stars -->
+            <div class="review-card__header">
+              <div class="review-card__name">${escapeHtml(review.name)}</div>
+              <div class="review-card__stars">${stars}</div>
             </div>
             
+            <!-- Review title (optional, can use first line) -->
+            <h3 class="review-card__title">${title}</h3>
+            
+            <!-- Review text -->
+            <p class="review-card__text">${fullText}</p>
+            
+            <!-- Footer with verified buyer and date -->
+            <div class="review-card__footer">
+              <span class="review-card__verified">Verified Buyer</span>
+              <span class="review-card__date">${date}</span>
+            </div>
+            
+            <!-- Action Buttons -->
+            <div class="review-card__actions">
+              <button 
+                onclick="editReview('${docId}', ${JSON.stringify(escapeHtml(review.name)).replace(/"/g, '&quot;')}, '${review.email}', ${review.rating}, ${JSON.stringify(escapeHtml(review.review)).replace(/"/g, '&quot;')})"
+                class="review-card__btn review-card__btn--edit">
+                Edit
+              </button>
+              <button 
+                onclick="deleteReview('${docId}')"
+                class="review-card__btn review-card__btn--delete">
+                Delete
+              </button>
+            </div>
           </div>
         `;
       }
@@ -5693,6 +5780,18 @@ Order now via DM, WhatsApp +91 91888 55551, or visit www.meelaherbals.com
           cartHTML += '</form>';
           cartHTML += '</div>';
           
+          // Payment Mode Section
+          cartHTML += '<div style="margin:20px 0;padding:15px;background:#f9f9f9;border-radius:5px;">';
+          cartHTML += '<h3 style="margin:0 0 12px 0;font-size:15px;font-weight:600;color:#333;">Payment Mode</h3>';
+          cartHTML += '<label style="display:flex;align-items:center;gap:10px;padding:12px;background:#fff;border:2px solid #000;border-radius:5px;cursor:pointer;">';
+          cartHTML += '<input type="radio" name="payment-mode" value="cod" checked style="width:18px;height:18px;cursor:pointer;">';
+          cartHTML += '<div style="flex:1;">';
+          cartHTML += '<div style="font-weight:600;font-size:14px;color:#000;">Cash on Delivery</div>';
+          cartHTML += '<div style="font-size:12px;color:#666;margin-top:2px;">Pay when you receive your order</div>';
+          cartHTML += '</div>';
+          cartHTML += '</label>';
+          cartHTML += '</div>';
+          
           if (addressData) {
             cartHTML += '<button id="proceed-checkout-btn" style="width:100%;padding:15px;background:#000;color:#fff;border:none;cursor:pointer;font-weight:500;font-size:15px;">Proceed to Pay</button>';
           } else {
@@ -5804,6 +5903,319 @@ Order now via DM, WhatsApp +91 91888 55551, or visit www.meelaherbals.com
 
       // also ensure sync after DOM ready
       document.addEventListener('DOMContentLoaded', function(){ syncCartUI(); updateCartDisplay(); });
+    })();
+  </script>
+
+  <style>
+    /* Mobile: Hide product name, show controls full width */
+    @media (max-width: 768px) {
+      .product-name-desktop {
+        display: none !important;
+      }
+      .controls-section {
+        flex: 1 1 100% !important;
+        width: 100% !important;
+        justify-content: space-between !important;
+        max-width: 100% !important;
+      }
+      #sticky-shop-bar > div {
+        flex-wrap: nowrap !important;
+      }
+    }
+    
+    /* Desktop: Show product name */
+    @media (min-width: 769px) {
+      .product-name-desktop {
+        display: flex !important;
+      }
+      .controls-section {
+        flex: 1 1 auto !important;
+      }
+    }
+  </style>
+
+  <!-- Sticky Shop Bar -->
+  <div id="sticky-shop-bar" class="tw-col w-full" style="
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: transparent;
+    z-index: 1000;
+    display: none;
+    border: none;
+    font-family: 'Neue Haas Grotesk Text', sans-serif;
+  ">
+    <div class="md:sticky md:bottom-0 md:left-0" style="
+      border: none;
+      font-family: 'Neue Haas Grotesk Text', sans-serif;
+      background: transparent;
+      padding: 10px 15px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 10px;
+    ">
+      <!-- Left side: Product Name (hidden on mobile) -->
+      <div style="
+        display: flex; 
+        align-items: center;
+        flex: 1 1 auto;
+        min-width: 120px;
+      " class="product-name-desktop">
+        <span class="font-medium uppercase" style="
+          color: #1a1a1a;
+          font-family: 'Neue Haas Grotesk Text', sans-serif;
+          font-size: clamp(12px, 3vw, 14px);
+          font-weight: 500;
+          letter-spacing: 0.5px;
+        ">MEELA AYURVDIC</span>
+      </div>
+
+      <!-- Right side: Quantity and Add to Cart -->
+      <div style="
+        display: flex; 
+        align-items: center; 
+        gap: 10px;
+        flex: 1 1 auto;
+        justify-content: flex-end;
+      " class="controls-section">
+        <!-- Quantity Selector -->
+        <div style="
+          display: flex; 
+          align-items: center; 
+          gap: 8px;
+        ">
+          <button id="sticky-qty-minus" style="
+            background: none;
+            border: none;
+            font-size: clamp(16px, 4vw, 18px);
+            color: #3c3c3c;
+            cursor: pointer;
+            padding: 5px 8px;
+            font-family: 'Neue Haas Grotesk Text', sans-serif;
+            font-weight: 400;
+            min-width: 30px;
+          ">−</button>
+          <span id="sticky-quantity" style="
+            font-size: clamp(14px, 3.5vw, 16px);
+            font-weight: 400;
+            color: #3c3c3c;
+            min-width: 20px;
+            text-align: center;
+            font-family: 'Neue Haas Grotesk Text', sans-serif;
+          ">1</span>
+          <button id="sticky-qty-plus" style="
+            background: none;
+            border: none;
+            font-size: clamp(16px, 4vw, 18px);
+            color: #3c3c3c;
+            cursor: pointer;
+            padding: 5px 8px;
+            font-family: 'Neue Haas Grotesk Text', sans-serif;
+            font-weight: 400;
+            min-width: 30px;
+          ">+</button>
+        </div>
+
+        <!-- Add to Cart Button -->
+        <button id="sticky-add-to-cart" class="btn btn--primary justify-between flex" style="
+          font-family: 'Neue Haas Grotesk Text', sans-serif;
+          white-space: nowrap;
+          padding: 8px clamp(20px, 5vw, 30px);
+          min-width: clamp(160px, 40vw, 200px);
+        ">
+          <span>Add To Cart</span>
+          <span id="sticky-price">₹899.00</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Sticky Shop Bar Functionality - Synced with main cart
+    (function() {
+      const stickyBar = document.getElementById('sticky-shop-bar');
+      const qtyDisplay = document.getElementById('sticky-quantity');
+      const priceDisplay = document.getElementById('sticky-price');
+      const minusBtn = document.getElementById('sticky-qty-minus');
+      const plusBtn = document.getElementById('sticky-qty-plus');
+      const addToCartBtn = document.getElementById('sticky-add-to-cart');
+      
+      const basePrice = 899;
+      let quantity = 1;
+
+      // Show sticky bar on scroll on ALL pages (reduced threshold for better visibility)
+      let lastScroll = 0;
+      window.addEventListener('scroll', function() {
+        const currentScroll = window.scrollY;
+        
+        // Show sticky bar after scrolling down 200px on any page
+        if (currentScroll > 200) {
+          stickyBar.style.display = 'block';
+        } else {
+          stickyBar.style.display = 'none';
+        }
+        
+        lastScroll = currentScroll;
+      });
+
+      // Update price display based on quantity
+      function updatePrice() {
+        const totalPrice = (basePrice * quantity).toFixed(2);
+        priceDisplay.textContent = `₹${totalPrice}`;
+      }
+
+      // Sync quantity with main product controls if they exist
+      function syncWithMainControls() {
+        // Try to find main quantity input or controls
+        const mainQtyInputs = document.querySelectorAll('input[name="quantity"], .quantity-input, [data-quantity], #main-product-qty');
+        if (mainQtyInputs.length > 0) {
+          const mainQty = parseInt(mainQtyInputs[0].value) || 1;
+          if (mainQty !== quantity) {
+            quantity = mainQty;
+            qtyDisplay.textContent = quantity;
+            updatePrice();
+          }
+        }
+      }
+
+      // Listen to main quantity input changes
+      function setupMainControlListeners() {
+        const mainQtyInputs = document.querySelectorAll('input[name="quantity"], .quantity-input, [data-quantity], #main-product-qty');
+        
+        mainQtyInputs.forEach(input => {
+          // Listen for input changes
+          input.addEventListener('input', function() {
+            syncWithMainControls();
+          });
+          
+          // Listen for change events
+          input.addEventListener('change', function() {
+            syncWithMainControls();
+          });
+        });
+
+        // Also listen to +/- buttons on main product form
+        const mainQtyControl = document.querySelector('qty-control');
+        if (mainQtyControl) {
+          const mainMinusBtn = mainQtyControl.querySelector('button[name="minus"]');
+          const mainPlusBtn = mainQtyControl.querySelector('button[name="plus"]');
+          
+          if (mainMinusBtn) {
+            mainMinusBtn.addEventListener('click', function() {
+              setTimeout(syncWithMainControls, 50);
+            });
+          }
+          
+          if (mainPlusBtn) {
+            mainPlusBtn.addEventListener('click', function() {
+              setTimeout(syncWithMainControls, 50);
+            });
+          }
+        }
+      }
+
+      // Quantity controls - Minus button
+      minusBtn.addEventListener('click', function() {
+        if (quantity > 1) {
+          quantity--;
+          qtyDisplay.textContent = quantity;
+          updatePrice();
+          syncMainControlsFromSticky();
+        }
+      });
+
+      // Quantity controls - Plus button
+      plusBtn.addEventListener('click', function() {
+        quantity++;
+        qtyDisplay.textContent = quantity;
+        updatePrice();
+        syncMainControlsFromSticky();
+      });
+
+      // Sync main controls when sticky is updated
+      function syncMainControlsFromSticky() {
+        const mainQtyInputs = document.querySelectorAll('input[name="quantity"], .quantity-input, [data-quantity]');
+        mainQtyInputs.forEach(input => {
+          input.value = quantity;
+          // Trigger change event
+          const event = new Event('change', { bubbles: true });
+          input.dispatchEvent(event);
+        });
+      }
+
+      // Add to cart functionality - integrated with existing cart
+      addToCartBtn.addEventListener('click', function() {
+        // Find and click the main add to cart button if it exists
+        const mainAddToCartBtn = document.getElementById('main-product-add-form-submit');
+        if (mainAddToCartBtn) {
+          syncMainControlsFromSticky();
+          mainAddToCartBtn.click();
+        } else {
+          // Fallback to manual cart addition
+          const product = {
+            id: 'meela-ayurvdic-' + Date.now(),
+            name: 'MEELA AYURVDIC Hair Growth Oil',
+            price: basePrice,
+            quantity: quantity,
+            image: '' // Can be populated with actual product image
+          };
+
+          // Get existing cart from localStorage
+          let cart = [];
+          try {
+            const savedCart = localStorage.getItem('cart');
+            if (savedCart) {
+              cart = JSON.parse(savedCart);
+            }
+          } catch(e) {
+            console.error('Error reading cart:', e);
+          }
+
+          // Add product to cart
+          cart.push(product);
+          
+          // Save to localStorage
+          try {
+            localStorage.setItem('cart', JSON.stringify(cart));
+          } catch(e) {
+            console.error('Error saving cart:', e);
+          }
+
+          // Update cart display if function exists
+          if (typeof updateCartDisplay === 'function') {
+            updateCartDisplay();
+          }
+          if (typeof syncCartUI === 'function') {
+            syncCartUI();
+          }
+
+          // Open cart section after adding to cart
+          const cartTrigger = document.getElementById('cart-trigger');
+          if (cartTrigger) {
+            setTimeout(function() {
+              cartTrigger.click();
+            }, 300);
+          }
+
+          // Reset quantity
+          quantity = 1;
+          qtyDisplay.textContent = quantity;
+          updatePrice();
+        }
+      });
+
+      // Initialize: Setup listeners and sync
+      setupMainControlListeners();
+      syncWithMainControls();
+
+      // Also check on initial load
+      window.addEventListener('load', function() {
+        setupMainControlListeners();
+        syncWithMainControls();
+      });
     })();
   </script>
 </body>
