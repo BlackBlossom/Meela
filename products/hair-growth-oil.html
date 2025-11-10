@@ -126,6 +126,87 @@
       font-style: normal;
       font-display: swap;
     }
+
+    /* Review Cards */
+    .review-card {
+      background: transparent;
+      border: none;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .review-card__header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .review-card__name {
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: 12px;
+      font-weight: 600;
+      color: #1f2937;
+      letter-spacing: 0.02em;
+    }
+
+    .review-card__stars {
+      color: #000;
+      font-size: 14px;
+      line-height: 1;
+      white-space: nowrap;
+    }
+
+    .review-card__title {
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: 13px;
+      font-weight: 600;
+      color: #1f2937;
+      margin: 0;
+      line-height: 1.4;
+    }
+
+    .review-card__text {
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: 11px;
+      line-height: 1.6;
+      color: #666;
+      margin: 0;
+    }
+
+    .review-card__footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 8px;
+      font-size: 10px;
+      color: #9ca3af;
+      margin-top: auto;
+    }
+
+    .review-card__verified {
+      color: #808080;
+      font-weight: 500;
+    }
+
+    .review-card__date {
+      color: #9ca3af;
+    }
+
+    /* Responsive adjustments */
+    @media (max-width: 768px) {
+      .custom-slides {
+        grid-template-columns: 1fr !important;
+      }
+    }
+
+    @media (min-width: 769px) and (max-width: 1024px) {
+      .custom-slides {
+        grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)) !important;
+      }
+    }
   </style>
 
   <script>window.performance && window.performance.mark && window.performance.mark('shopify.content_for_header.start');</script>
@@ -770,7 +851,7 @@
         <div id='product' class='tw-container--fluid'>
           <div class='tw-row md:flex-nowrap'>
 
-            <div id='product-images' class='relative md:sticky top-0 w-full md:w-6/12 self-start pb-15 md:pb-60 '>
+            <div id='product-images' class='relative w-full md:w-6/12 self-start pb-15 md:pb-60 '>
 
 
 
@@ -990,7 +1071,7 @@
 
                 </div>
 
-                <div class='md:sticky top-0 bg-background z-30 py-15 md:py-0 order-2'>
+                <div class='bg-background z-30 py-15 md:py-0 order-2'>
 
                   <div id='product-title' class='w-full flex flex-wrap '>
                     <div class='md:pt-40  md:w-7/12 pb-15'>
@@ -1529,222 +1610,6 @@
         </div>
       </div>
 
-      <script>
-        (function() {
-          // Sticky cart functionality - makes the add to cart section sticky to bottom
-          const mainFormContainer = document.getElementById('main-product-add-form')?.parentElement;
-          const mainAddToCartButton = document.getElementById('main-product-add-form-submit');
-          const mainQtyInput = document.getElementById('main-product-qty');
-          const mainQtyControl = mainQtyInput?.closest('qty-control');
-
-          if (!mainFormContainer || !mainAddToCartButton) return;
-
-          // Create sticky wrapper that sticks to bottom
-          const stickyWrapper = document.createElement('div');
-          stickyWrapper.id = 'sticky-form-wrapper';
-          stickyWrapper.style.position = 'fixed';
-          stickyWrapper.style.bottom = '0';
-          stickyWrapper.style.left = '0';
-          stickyWrapper.style.right = '0';
-          stickyWrapper.style.width = '100%';
-          stickyWrapper.style.zIndex = '50';
-          stickyWrapper.style.transition = 'transform 0.3s ease, opacity 0.3s ease';
-          stickyWrapper.style.transform = 'translateY(100%)';
-          stickyWrapper.style.opacity = '0';
-          stickyWrapper.style.pointerEvents = 'none';
-          stickyWrapper.style.padding = '15px';
-          stickyWrapper.style.boxShadow = '0 -4px 12px rgba(0,0,0,0.08)';
-
-          // Create sticky content wrapper with product name on left and controls on right
-          const stickyContent = document.createElement('div');
-          stickyContent.style.display = 'flex';
-          stickyContent.style.alignItems = 'center';
-          stickyContent.style.justifyContent = 'space-between';
-          stickyContent.style.gap = '15px';
-          stickyContent.style.maxWidth = '1200px';
-          stickyContent.style.margin = '0 auto';
-
-          // Product name section (left)
-          const productNameSection = document.createElement('div');
-          productNameSection.style.flex = '0 0 auto';
-          const productTitle = document.querySelector('#product-title h1, #product-title span');
-          const productName = productTitle ? productTitle.textContent.trim() : 'MEELA AYURVEDIC HAIR GROWTH OIL';
-          productNameSection.innerHTML = `<h3 style="font-family: 'Neue Haas Grotesk Text', sans-serif; font-size: 14px; font-weight: 500; color: #000000; margin: 0; text-transform: uppercase; letter-spacing: 0.5px;">${productName}</h3>`;
-
-          // Controls section (right) - clone the form
-          const controlsSection = document.createElement('div');
-          controlsSection.style.flex = '0 0 auto';
-          controlsSection.style.display = 'flex';
-          controlsSection.style.alignItems = 'center';
-          controlsSection.style.gap = '10px';
-
-          const stickyFormClone = mainFormContainer.cloneNode(true);
-          stickyFormClone.style.margin = '0';
-          stickyFormClone.style.padding = '0';
-          
-          // Update the cloned form to display as inline flex
-          const clonedFormElement = stickyFormClone.querySelector('#main-product-add-form');
-          if (clonedFormElement) {
-            clonedFormElement.style.display = 'flex';
-            clonedFormElement.style.flexDirection = 'row';
-            clonedFormElement.style.gap = '10px';
-            clonedFormElement.style.alignItems = 'center';
-            
-            // Add more space between "Add to Cart" text and price in the button
-            const addToCartButton = clonedFormElement.querySelector('button[type="submit"]');
-            if (addToCartButton) {
-              addToCartButton.style.gap = '30px';
-              addToCartButton.style.paddingLeft = '20px';
-              addToCartButton.style.paddingRight = '20px';
-            }
-          }
-
-          controlsSection.appendChild(stickyFormClone);
-          
-          stickyContent.appendChild(productNameSection);
-          stickyContent.appendChild(controlsSection);
-          stickyWrapper.appendChild(stickyContent);
-          document.body.appendChild(stickyWrapper);
-
-          // Get cloned elements
-          const clonedQtyInput = stickyFormClone.querySelector('#main-product-qty');
-          const clonedForm = stickyFormClone.querySelector('#main-product-add-form');
-          const clonedQtyControl = clonedQtyInput?.closest('qty-control');
-
-          // Intersection Observer to detect when the original button is out of view
-          const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-              if (!entry.isIntersecting) {
-                // Original button is out of view, show sticky
-                stickyWrapper.style.transform = 'translateY(0)';
-                stickyWrapper.style.opacity = '1';
-                stickyWrapper.style.pointerEvents = 'auto';
-              } else {
-                // Original button is in view, hide sticky
-                stickyWrapper.style.transform = 'translateY(100%)';
-                stickyWrapper.style.opacity = '0';
-                stickyWrapper.style.pointerEvents = 'none';
-              }
-            });
-          }, {
-            threshold: 0,
-            rootMargin: '0px'
-          });
-
-          observer.observe(mainAddToCartButton);
-
-          // Sync quantity between original and sticky
-          function syncQuantity(source, target) {
-            if (source && target && source.value !== target.value) {
-              target.value = source.value;
-              // Trigger events to update display
-              const inputEvent = new Event('input', { bubbles: true });
-              const changeEvent = new Event('change', { bubbles: true });
-              target.dispatchEvent(inputEvent);
-              target.dispatchEvent(changeEvent);
-            }
-          }
-
-          // Listen to original quantity changes
-          if (mainQtyInput && clonedQtyInput) {
-            mainQtyInput.addEventListener('change', () => {
-              syncQuantity(mainQtyInput, clonedQtyInput);
-            });
-            mainQtyInput.addEventListener('input', () => {
-              syncQuantity(mainQtyInput, clonedQtyInput);
-            });
-          }
-
-          // Listen to cloned quantity changes
-          if (clonedQtyInput && mainQtyInput) {
-            clonedQtyInput.addEventListener('change', () => {
-              syncQuantity(clonedQtyInput, mainQtyInput);
-            });
-            clonedQtyInput.addEventListener('input', () => {
-              syncQuantity(clonedQtyInput, mainQtyInput);
-            });
-          }
-
-          // Handle + and - buttons on original form
-          if (mainQtyControl) {
-            const minusBtn = mainQtyControl.querySelector('button[name="minus"]');
-            const plusBtn = mainQtyControl.querySelector('button[name="plus"]');
-
-            if (minusBtn) {
-              minusBtn.addEventListener('click', (e) => {
-                e.preventDefault();
-                const currentValue = parseInt(mainQtyInput.value) || 1;
-                if (currentValue > 1) {
-                  mainQtyInput.value = currentValue - 1;
-                  const inputEvent = new Event('input', { bubbles: true });
-                  const changeEvent = new Event('change', { bubbles: true });
-                  mainQtyInput.dispatchEvent(inputEvent);
-                  mainQtyInput.dispatchEvent(changeEvent);
-                  syncQuantity(mainQtyInput, clonedQtyInput);
-                }
-              });
-            }
-
-            if (plusBtn) {
-              plusBtn.addEventListener('click', (e) => {
-                e.preventDefault();
-                const currentValue = parseInt(mainQtyInput.value) || 1;
-                mainQtyInput.value = currentValue + 1;
-                const inputEvent = new Event('input', { bubbles: true });
-                const changeEvent = new Event('change', { bubbles: true });
-                mainQtyInput.dispatchEvent(inputEvent);
-                mainQtyInput.dispatchEvent(changeEvent);
-                syncQuantity(mainQtyInput, clonedQtyInput);
-              });
-            }
-          }
-
-          // Handle + and - buttons on cloned form
-          if (clonedQtyControl) {
-            const minusBtn = clonedQtyControl.querySelector('button[name="minus"]');
-            const plusBtn = clonedQtyControl.querySelector('button[name="plus"]');
-
-            if (minusBtn) {
-              minusBtn.addEventListener('click', (e) => {
-                e.preventDefault();
-                const currentValue = parseInt(clonedQtyInput.value) || 1;
-                if (currentValue > 1) {
-                  clonedQtyInput.value = currentValue - 1;
-                  const inputEvent = new Event('input', { bubbles: true });
-                  const changeEvent = new Event('change', { bubbles: true });
-                  clonedQtyInput.dispatchEvent(inputEvent);
-                  clonedQtyInput.dispatchEvent(changeEvent);
-                  syncQuantity(clonedQtyInput, mainQtyInput);
-                }
-              });
-            }
-
-            if (plusBtn) {
-              plusBtn.addEventListener('click', (e) => {
-                e.preventDefault();
-                const currentValue = parseInt(clonedQtyInput.value) || 1;
-                clonedQtyInput.value = currentValue + 1;
-                const inputEvent = new Event('input', { bubbles: true });
-                const changeEvent = new Event('change', { bubbles: true });
-                clonedQtyInput.dispatchEvent(inputEvent);
-                clonedQtyInput.dispatchEvent(changeEvent);
-                syncQuantity(clonedQtyInput, mainQtyInput);
-              });
-            }
-          }
-
-          // Handle sticky form submission
-          if (clonedForm) {
-            clonedForm.addEventListener('submit', (e) => {
-              e.preventDefault();
-              // Sync quantity and trigger original form
-              syncQuantity(clonedQtyInput, mainQtyInput);
-              mainAddToCartButton.click();
-            });
-          }
-        })();
-      </script>
-
     </section>
     
     <section id="shopify-section-template--18581857304774__product_feature_list_Qz8JXk"
@@ -2022,35 +1887,70 @@
 
               <!-- Custom static review slider (keeps Yotpo element intact) -->
               <div class="custom-review-slider mt-20" aria-label="Customer reviews slider">
-                <div class="custom-slides" style="display:flex; flex-wrap:wrap; gap:10px;">
-                  <div class="custom-slide" style="flex:0 0 calc(20% - 8px); padding:10px; border:1px solid #e5e7eb; border-radius:10px; background:#fff; box-sizing:border-box;">
-                    <strong style="display:block; margin-bottom:6px; font-size:12px; font-weight:600;">Priya Sharma</strong>
-                    <div style="color:#fbbf24; margin-bottom:6px; font-size:14px;" aria-hidden="true">★★★★★</div>
-                    <p style="margin:0; font-size:11px; line-height:1.4; color:#666;">I've used this oil for two months — my hair fall has reduced and I see new baby hairs. Lightweight, nourishes without grease.</p>
+                <div class="custom-slides" style="display:grid; grid-template-columns:repeat(auto-fill,minmax(300px,1fr)); gap:40px;">
+                  <div class="review-card">
+                    <div class="review-card__header">
+                      <span class="review-card__name">Priya Sharma</span>
+                      <div class="review-card__stars" aria-hidden="true">★★★★★</div>
+                    </div>
+                    <h4 class="review-card__title">Effective and gentle</h4>
+                    <p class="review-card__text">I've used this oil for two months — my hair fall has reduced and I see new baby hairs. Lightweight, nourishes without grease.</p>
+                    <div class="review-card__footer">
+                      <span class="review-card__verified">✓ Verified Buyer</span>
+                      <span class="review-card__date">2 months ago</span>
+                    </div>
                   </div>
 
-                  <div class="custom-slide" style="flex:0 0 calc(20% - 8px); padding:10px; border:1px solid #e5e7eb; border-radius:10px; background:#fff; box-sizing:border-box;">
-                    <strong style="display:block; margin-bottom:6px; font-size:12px; font-weight:600;">Amit Patel</strong>
-                    <div style="color:#fbbf24; margin-bottom:6px; font-size:14px;" aria-hidden="true">★★★★★</div>
-                    <p style="margin:0; font-size:11px; line-height:1.4; color:#666;">Noticeable thickness and shine after regular use. Scalp feels healthier and hair breakage has decreased.</p>
+                  <div class="review-card">
+                    <div class="review-card__header">
+                      <span class="review-card__name">Amit Patel</span>
+                      <div class="review-card__stars" aria-hidden="true">★★★★★</div>
+                    </div>
+                    <h4 class="review-card__title">Visible results</h4>
+                    <p class="review-card__text">Noticeable thickness and shine after regular use. Scalp feels healthier and hair breakage has decreased.</p>
+                    <div class="review-card__footer">
+                      <span class="review-card__verified">✓ Verified Buyer</span>
+                      <span class="review-card__date">1 month ago</span>
+                    </div>
                   </div>
 
-                  <div class="custom-slide" style="flex:0 0 calc(20% - 8px); padding:10px; border:1px solid #e5e7eb; border-radius:10px; background:#fff; box-sizing:border-box;">
-                    <strong style="display:block; margin-bottom:6px; font-size:12px; font-weight:600;">Saanvi Menon</strong>
-                    <div style="color:#fbbf24; margin-bottom:6px; font-size:14px;" aria-hidden="true">★★★★★</div>
-                    <p style="margin:0; font-size:11px; line-height:1.4; color:#666;">Beautiful natural blend — my treated hair is softer and much more manageable. Gentle on the scalp.</p>
+                  <div class="review-card">
+                    <div class="review-card__header">
+                      <span class="review-card__name">Saanvi Menon</span>
+                      <div class="review-card__stars" aria-hidden="true">★★★★★</div>
+                    </div>
+                    <h4 class="review-card__title">Love this natural blend</h4>
+                    <p class="review-card__text">Beautiful natural blend — my treated hair is softer and much more manageable. Gentle on the scalp.</p>
+                    <div class="review-card__footer">
+                      <span class="review-card__verified">✓ Verified Buyer</span>
+                      <span class="review-card__date">3 weeks ago</span>
+                    </div>
                   </div>
 
-                  <div class="custom-slide" style="flex:0 0 calc(20% - 8px); padding:10px; border:1px solid #e5e7eb; border-radius:10px; background:#fff; box-sizing:border-box;">
-                    <strong style="display:block; margin-bottom:6px; font-size:12px; font-weight:600;">Rohit Kumar</strong>
-                    <div style="color:#fbbf24; margin-bottom:6px; font-size:14px;" aria-hidden="true">★★★★★</div>
-                    <p style="margin:0; font-size:11px; line-height:1.4; color:#666;">Scalp calm and stronger strands in a few weeks. Great value and reliable results.</p>
+                  <div class="review-card">
+                    <div class="review-card__header">
+                      <span class="review-card__name">Rohit Kumar</span>
+                      <div class="review-card__stars" aria-hidden="true">★★★★★</div>
+                    </div>
+                    <h4 class="review-card__title">Great value</h4>
+                    <p class="review-card__text">Scalp calm and stronger strands in a few weeks. Great value and reliable results.</p>
+                    <div class="review-card__footer">
+                      <span class="review-card__verified">✓ Verified Buyer</span>
+                      <span class="review-card__date">1 week ago</span>
+                    </div>
                   </div>
 
-                  <div class="custom-slide" style="flex:0 0 calc(20% - 8px); padding:10px; border:1px solid #e5e7eb; border-radius:10px; background:#fff; box-sizing:border-box;">
-                    <strong style="display:block; margin-bottom:6px; font-size:12px; font-weight:600;">Neha Gupta</strong>
-                    <div style="color:#fbbf24; margin-bottom:6px; font-size:14px;" aria-hidden="true">★★★★★</div>
-                    <p style="margin:0; font-size:11px; line-height:1.4; color:#666;">My go-to hair oil — non-greasy, effective and pleasant smelling. Friends already asked what I use.</p>
+                  <div class="review-card">
+                    <div class="review-card__header">
+                      <span class="review-card__name">Neha Gupta</span>
+                      <div class="review-card__stars" aria-hidden="true">★★★★★</div>
+                    </div>
+                    <h4 class="review-card__title">My go-to hair oil</h4>
+                    <p class="review-card__text">My go-to hair oil — non-greasy, effective and pleasant smelling. Friends already asked what I use.</p>
+                    <div class="review-card__footer">
+                      <span class="review-card__verified">✓ Verified Buyer</span>
+                      <span class="review-card__date">2 days ago</span>
+                    </div>
                   </div>
                 </div>
 
@@ -3271,6 +3171,422 @@
           }, true); // Use capture phase to intercept before cart-fix.js
         }
       }
+    })();
+  </script>
+
+  <style>
+    /* Mobile: Hide product name, show controls full width */
+    @media (max-width: 768px) {
+      .product-name-desktop {
+        display: none !important;
+      }
+      .controls-section {
+        flex: 1 1 100% !important;
+        width: 100% !important;
+        justify-content: space-between !important;
+        max-width: 100% !important;
+      }
+      #sticky-shop-bar > div {
+        flex-wrap: nowrap !important;
+      }
+    }
+    
+    /* Desktop: Show product name */
+    @media (min-width: 769px) {
+      .product-name-desktop {
+        display: flex !important;
+      }
+      .controls-section {
+        flex: 1 1 auto !important;
+      }
+    }
+  </style>
+
+  <!-- Sticky Shop Bar -->
+  <div id="sticky-shop-bar" class="tw-col w-full" style="
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: transparent;
+    z-index: 1000;
+    display: none;
+    border: none;
+    font-family: 'Neue Haas Grotesk Text', sans-serif;
+  ">
+    <div class="md:sticky md:bottom-0 md:left-0" style="
+      border: none;
+      font-family: 'Neue Haas Grotesk Text', sans-serif;
+      background: transparent;
+      padding: 10px 15px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 10px;
+    ">
+      <!-- Left side: Product Name (hidden on mobile) -->
+      <div style="
+        display: flex; 
+        align-items: center;
+        flex: 1 1 auto;
+        min-width: 120px;
+      " class="product-name-desktop">
+        <span class="font-medium uppercase" style="
+          color: #1a1a1a;
+          font-family: 'Neue Haas Grotesk Text', sans-serif;
+          font-size: clamp(12px, 3vw, 14px);
+          font-weight: 500;
+          letter-spacing: 0.5px;
+        ">MEELA AYURVDIC</span>
+      </div>
+
+      <!-- Right side: Quantity and Add to Cart -->
+      <div style="
+        display: flex; 
+        align-items: center; 
+        gap: 10px;
+        flex: 1 1 auto;
+        justify-content: flex-end;
+      " class="controls-section">
+        <!-- Quantity Selector -->
+        <div style="
+          display: flex; 
+          align-items: center; 
+          gap: 8px;
+        ">
+          <button id="sticky-qty-minus" style="
+            background: none;
+            border: none;
+            font-size: clamp(16px, 4vw, 18px);
+            color: #3c3c3c;
+            cursor: pointer;
+            padding: 5px 8px;
+            font-family: 'Neue Haas Grotesk Text', sans-serif;
+            font-weight: 400;
+            min-width: 30px;
+          ">−</button>
+          <span id="sticky-quantity" style="
+            font-size: clamp(14px, 3.5vw, 16px);
+            font-weight: 400;
+            color: #3c3c3c;
+            min-width: 20px;
+            text-align: center;
+            font-family: 'Neue Haas Grotesk Text', sans-serif;
+          ">1</span>
+          <button id="sticky-qty-plus" style="
+            background: none;
+            border: none;
+            font-size: clamp(16px, 4vw, 18px);
+            color: #3c3c3c;
+            cursor: pointer;
+            padding: 5px 8px;
+            font-family: 'Neue Haas Grotesk Text', sans-serif;
+            font-weight: 400;
+            min-width: 30px;
+          ">+</button>
+        </div>
+
+        <!-- Add to Cart Button -->
+        <button id="sticky-add-to-cart" class="btn btn--primary justify-between flex" style="
+          font-family: 'Neue Haas Grotesk Text', sans-serif;
+          white-space: nowrap;
+          padding: 8px clamp(20px, 5vw, 30px);
+          min-width: clamp(160px, 40vw, 200px);
+        ">
+          <span>Add To Cart</span>
+          <span id="sticky-price">₹699.00</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Main Add to Cart Button - Dynamic Price Update
+    (function() {
+      const mainQtyInput = document.getElementById('main-product-qty');
+      const mainAddToCartBtn = document.getElementById('main-product-add-form-submit');
+      const basePrice = 899;
+
+      // Find the price span in the button
+      function updateMainButtonPrice() {
+        if (mainAddToCartBtn && mainQtyInput) {
+          const quantity = parseInt(mainQtyInput.value) || 1;
+          const totalPrice = (basePrice * quantity).toFixed(2);
+          
+          // Find the price span (second span in the button)
+          const priceSpan = mainAddToCartBtn.querySelector('span:last-child');
+          if (priceSpan) {
+            priceSpan.textContent = `₹${totalPrice}`;
+          }
+        }
+      }
+
+      // Listen to quantity input changes (this will catch changes from qty-control buttons)
+      if (mainQtyInput) {
+        // Watch for any value changes
+        mainQtyInput.addEventListener('input', updateMainButtonPrice);
+        mainQtyInput.addEventListener('change', updateMainButtonPrice);
+        
+        // Use MutationObserver to catch value changes that don't trigger events
+        const observer = new MutationObserver(updateMainButtonPrice);
+        observer.observe(mainQtyInput, { 
+          attributes: true, 
+          attributeFilter: ['value'] 
+        });
+        
+        // Also poll periodically as a fallback
+        setInterval(() => {
+          updateMainButtonPrice();
+        }, 100);
+      }
+
+      // Initialize on load
+      window.addEventListener('load', updateMainButtonPrice);
+      updateMainButtonPrice();
+    })();
+  </script>
+
+  <script>
+    // Fix main quantity controls - ensure they work with multiple clicks
+    (function() {
+      const qtyControl = document.querySelector('qty-control');
+      if (!qtyControl) return;
+
+      const minusBtn = qtyControl.querySelector('button[name="minus"]');
+      const plusBtn = qtyControl.querySelector('button[name="plus"]');
+      const qtyInput = qtyControl.querySelector('input[name="quantity"]');
+
+      if (minusBtn && plusBtn && qtyInput) {
+        // Remove any existing event listeners and add fresh ones
+        const decreaseQty = (e) => {
+          e.preventDefault();
+          e.stopPropagation();
+          const currentVal = parseInt(qtyInput.value) || 1;
+          if (currentVal > 1) {
+            qtyInput.value = currentVal - 1;
+            qtyInput.dispatchEvent(new Event('input', { bubbles: true }));
+            qtyInput.dispatchEvent(new Event('change', { bubbles: true }));
+          }
+        };
+
+        const increaseQty = (e) => {
+          e.preventDefault();
+          e.stopPropagation();
+          const currentVal = parseInt(qtyInput.value) || 1;
+          qtyInput.value = currentVal + 1;
+          qtyInput.dispatchEvent(new Event('input', { bubbles: true }));
+          qtyInput.dispatchEvent(new Event('change', { bubbles: true }));
+        };
+
+        // Add click handlers with capture phase
+        minusBtn.addEventListener('click', decreaseQty, true);
+        plusBtn.addEventListener('click', increaseQty, true);
+
+        // Also handle with standard event flow as backup
+        minusBtn.addEventListener('click', decreaseQty);
+        plusBtn.addEventListener('click', increaseQty);
+      }
+    })();
+  </script>
+
+  <script>
+    // Sticky Shop Bar Functionality - Synced with main cart
+    (function() {
+      const stickyBar = document.getElementById('sticky-shop-bar');
+      const qtyDisplay = document.getElementById('sticky-quantity');
+      const priceDisplay = document.getElementById('sticky-price');
+      const minusBtn = document.getElementById('sticky-qty-minus');
+      const plusBtn = document.getElementById('sticky-qty-plus');
+      const addToCartBtn = document.getElementById('sticky-add-to-cart');
+      
+      const basePrice = 899;
+      let quantity = 1;
+
+      // Show sticky bar on scroll on ALL pages (reduced threshold for better visibility)
+      let lastScroll = 0;
+      window.addEventListener('scroll', function() {
+        const currentScroll = window.scrollY;
+        
+        // Show sticky bar after scrolling down 200px on any page
+        if (currentScroll > 200) {
+          stickyBar.style.display = 'block';
+        } else {
+          stickyBar.style.display = 'none';
+        }
+        
+        lastScroll = currentScroll;
+      });
+
+      // Update price display based on quantity
+      function updatePrice() {
+        const totalPrice = (basePrice * quantity).toFixed(2);
+        priceDisplay.textContent = `₹${totalPrice}`;
+      }
+
+      // Sync quantity with main product controls if they exist
+      function syncWithMainControls() {
+        // Try to find main quantity input or controls
+        const mainQtyInputs = document.querySelectorAll('input[name="quantity"], .quantity-input, [data-quantity], #main-product-qty');
+        if (mainQtyInputs.length > 0) {
+          const mainQty = parseInt(mainQtyInputs[0].value) || 1;
+          if (mainQty !== quantity) {
+            quantity = mainQty;
+            qtyDisplay.textContent = quantity;
+            updatePrice();
+          }
+        }
+      }
+
+      // Listen to main quantity input changes
+      function setupMainControlListeners() {
+        const mainQtyInputs = document.querySelectorAll('input[name="quantity"], .quantity-input, [data-quantity], #main-product-qty');
+        
+        mainQtyInputs.forEach(input => {
+          // Listen for input changes
+          input.addEventListener('input', function() {
+            syncWithMainControls();
+          });
+          
+          // Listen for change events
+          input.addEventListener('change', function() {
+            syncWithMainControls();
+          });
+        });
+
+        // Also listen to +/- buttons on main product form
+        const mainQtyControl = document.querySelector('qty-control');
+        if (mainQtyControl) {
+          const mainMinusBtn = mainQtyControl.querySelector('button[name="minus"]');
+          const mainPlusBtn = mainQtyControl.querySelector('button[name="plus"]');
+          
+          if (mainMinusBtn) {
+            mainMinusBtn.addEventListener('click', function() {
+              setTimeout(syncWithMainControls, 50);
+            });
+          }
+          
+          if (mainPlusBtn) {
+            mainPlusBtn.addEventListener('click', function() {
+              setTimeout(syncWithMainControls, 50);
+            });
+          }
+        }
+      }
+
+      // Quantity controls - Minus button
+      minusBtn.addEventListener('click', function() {
+        if (quantity > 1) {
+          quantity--;
+          qtyDisplay.textContent = quantity;
+          updatePrice();
+          syncMainControlsFromSticky();
+        }
+      });
+
+      // Quantity controls - Plus button
+      plusBtn.addEventListener('click', function() {
+        quantity++;
+        qtyDisplay.textContent = quantity;
+        updatePrice();
+        syncMainControlsFromSticky();
+      });
+
+      // Sync main controls when sticky is updated
+      function syncMainControlsFromSticky() {
+        const mainQtyInputs = document.querySelectorAll('input[name="quantity"], .quantity-input, [data-quantity], #main-product-qty');
+        mainQtyInputs.forEach(input => {
+          input.value = quantity;
+          // Trigger change event
+          const event = new Event('change', { bubbles: true });
+          input.dispatchEvent(event);
+        });
+      }
+
+      // Add to cart functionality - integrated with existing cart
+      addToCartBtn.addEventListener('click', function() {
+        // Find and click the main add to cart button if it exists
+        const mainAddToCartBtn = document.getElementById('main-product-add-form-submit');
+        if (mainAddToCartBtn) {
+          syncMainControlsFromSticky();
+          mainAddToCartBtn.click();
+        } else {
+          // Fallback to manual cart addition
+          const product = {
+            id: 'meela-ayurvdic-' + Date.now(),
+            name: 'MEELA AYURVDIC Hair Growth Oil',
+            price: basePrice,
+            quantity: quantity,
+            image: ''
+          };
+
+          // Get existing cart from localStorage
+          let cart = [];
+          try {
+            const savedCart = localStorage.getItem('cart');
+            if (savedCart) {
+              cart = JSON.parse(savedCart);
+            }
+          } catch(e) {
+            console.error('Error reading cart:', e);
+          }
+
+          // Add product to cart
+          cart.push(product);
+          
+          // Save to localStorage
+          try {
+            localStorage.setItem('cart', JSON.stringify(cart));
+          } catch(e) {
+            console.error('Error saving cart:', e);
+          }
+
+          // Update cart display if function exists
+          if (typeof updateCartDisplay === 'function') {
+            updateCartDisplay();
+          }
+          if (typeof syncCartUI === 'function') {
+            syncCartUI();
+          }
+
+          // Open cart section with blur effect
+          const cartTrigger = document.getElementById('cart-trigger');
+          if (cartTrigger) {
+            setTimeout(function() {
+              // Add blur effect to main content
+              const mainContent = document.querySelector('body');
+              if (mainContent) {
+                mainContent.style.transition = 'filter 0.3s ease';
+                mainContent.style.filter = 'blur(5px)';
+              }
+              
+              cartTrigger.click();
+              
+              // Remove blur when cart is closed
+              setTimeout(function() {
+                const cartClose = document.querySelector('[data-close-slideover]');
+                if (cartClose) {
+                  cartClose.addEventListener('click', function() {
+                    if (mainContent) {
+                      mainContent.style.filter = 'none';
+                    }
+                  });
+                }
+              }, 100);
+            }, 300);
+          }
+        }
+      });
+
+      // Initialize: Setup listeners and sync
+      setupMainControlListeners();
+      syncWithMainControls();
+
+      // Also check on initial load
+      window.addEventListener('load', function() {
+        setupMainControlListeners();
+        syncWithMainControls();
+      });
     })();
   </script>
 </body>

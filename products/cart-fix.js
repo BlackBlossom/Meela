@@ -169,6 +169,18 @@
       cartHTML += '</form>';
       cartHTML += '</div>';
       
+      // Payment Mode Section
+      cartHTML += '<div style="margin:20px 0;padding:15px;background:#f9f9f9;border-radius:5px;">';
+      cartHTML += '<h3 style="margin:0 0 12px 0;font-size:15px;font-weight:600;color:#333;">Payment Mode</h3>';
+      cartHTML += '<label style="display:flex;align-items:center;gap:10px;padding:12px;background:#fff;border:2px solid #000;border-radius:5px;cursor:pointer;">';
+      cartHTML += '<input type="radio" name="payment-mode" value="cod" checked style="width:18px;height:18px;cursor:pointer;">';
+      cartHTML += '<div style="flex:1;">';
+      cartHTML += '<div style="font-weight:600;font-size:14px;color:#000;">Cash on Delivery</div>';
+      cartHTML += '<div style="font-size:12px;color:#666;margin-top:2px;">Pay when you receive your order</div>';
+      cartHTML += '</div>';
+      cartHTML += '</label>';
+      cartHTML += '</div>';
+      
       // Proceed to Pay Button
       if (addressData) {
         cartHTML += '<button id="proceed-checkout-btn" style="width:100%;padding:15px;background:#000;color:#fff;border:none;cursor:pointer;font-weight:500;font-size:15px;">Proceed to Pay</button>';
