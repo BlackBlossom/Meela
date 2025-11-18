@@ -36,7 +36,7 @@
   const productData = {
     id: 'meela-hair-oil',
     title: 'Ayurvedic Hair Growth Oil',
-    price: 699.00,
+    price: 55.00,
     image: 'https://www.meelaherbals.com/cdn/shop/files/Artboard_13.png?v=1756315856&width=246'
   };
 
@@ -51,14 +51,14 @@
   function formatPrice(num) {
     if (typeof num !== 'number') return num;
     
-    // Get current currency from localStorage or default to INR
-    const selectedCurrency = localStorage.getItem('selectedCurrency') || 'INR';
+    // Get current currency from localStorage or default to AED
+    const selectedCurrency = localStorage.getItem('selectedCurrency') || 'AED';
     const currencyConfig = {
-      'INR': { symbol: '₹', rate: 1, label: 'India ₹ INR' },
-      'SAR': { symbol: '﷼', rate: 0.044, label: 'Saudi Arabia ﷼ SAR' }
+      'AED': { symbol: 'AED', rate: 1, label: 'UAE د.إ AED' },
+      'SAR': { symbol: '﷼', rate: 1.02, label: 'Saudi Arabia ﷼ SAR' }
     };
     
-    const config = currencyConfig[selectedCurrency] || currencyConfig['INR'];
+    const config = currencyConfig[selectedCurrency] || currencyConfig['AED'];
     const convertedAmount = num * config.rate;
     
     return config.symbol + ' ' + convertedAmount.toFixed(2);
@@ -77,11 +77,19 @@
 
   function updateCartDisplay() {
     const cartSection = document.querySelector('.shopify-cart__update-section');
-    if (!cartSection) return;
+    console.log('[CART-FIX] updateCartDisplay called, cartSection:', cartSection);
+    console.log('[CART-FIX] Current cart:', cart);
+    
+    if (!cartSection) {
+      console.error('[CART-FIX] Cart section not found!');
+      return;
+    }
 
     if (cart.length === 0) {
+      console.log('[CART-FIX] Cart is empty, showing empty message');
       cartSection.innerHTML = '<div class="grid grid-cols-1 h-full grid-rows-2"><div class="flex items-center justify-center"><span>Your cart is empty</span></div></div>';
     } else {
+      console.log('[CART-FIX] Cart has items, rendering...');
       // Check if address is saved
       const savedAddress = localStorage.getItem('meelaUserAddress');
       const addressData = savedAddress ? JSON.parse(savedAddress) : null;
@@ -191,7 +199,10 @@
       
       cartHTML += '</div></div>';
 
+      console.log('[CART-FIX] Cart HTML generated, length:', cartHTML.length);
+      console.log('[CART-FIX] Address data present:', !!addressData);
       cartSection.innerHTML = cartHTML;
+      console.log('[CART-FIX] Cart HTML injected into page');
 
       // Attach event handlers
       document.querySelectorAll('.qty-inc').forEach(function(btn) {
@@ -615,6 +626,11 @@
   // Initialize
   function init() {
     console.log('[CART-FIX] Initializing...');
+    console.log('[CART-FIX] Cart contents:', cart);
+    
+    const cartSection = document.querySelector('.shopify-cart__update-section');
+    console.log('[CART-FIX] Cart section found:', !!cartSection);
+    
     updateCartCount();
     updateCartDisplay();
     setupButtonHandler();
@@ -624,6 +640,7 @@
   if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', init);
   } else {
-    init();
+    // If DOM is already loaded, wait a tiny bit for other scripts
+    setTimeout(init, 100);
   }
 })();
