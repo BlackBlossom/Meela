@@ -727,7 +727,7 @@
 }
 @layer components {
   .section-padding {
-    background-color: #f6f3f0;
+    background-color: #ffffff;
     padding-top: 30px;
     padding-bottom: 30px;
   }
@@ -758,17 +758,14 @@
     }
   }
   .section-padding.section-padding--reduce-top {
-    padding-top: 15px;
   }
   .section-padding.section-padding--reduce-bottom {
     padding-bottom: 15px;
   }
   .section-padding.section-padding--extend-top {
-    padding-top: 80px;
   }
   @media (min-width: 768px) {
     .section-padding.section-padding--extend-top {
-      padding-top: 120px;
     }
   }
   .btn {
@@ -2252,7 +2249,7 @@
     border-left-color: #dedfdb;
   }
   .bg-background {
-    background-color: #f6f3f0;
+    background-color: #ffffff;
   }
   .bg-black {
     background-color: #000;
@@ -4122,7 +4119,7 @@
       width: 20.8333%;
     }
     .md\:w-6\/12 {
-      width: 50%;
+      width: 100%;
     }
     .md\:w-6\/24 {
       width: 25%;
@@ -4290,7 +4287,7 @@
       padding-bottom: 155px;
     }
     .md\:pb-\[163px\] {
-      padding-bottom: 163px;
+      padding-bottom: 0px;
     }
     .md\:pl-15 {
       padding-left: 15px;
@@ -5171,13 +5168,16 @@ ticker-tape[data-draggable="true"] {
   cursor: grab;
 }
 .shopify-section {
-  background-color: #f6f3f0;
+  background-color: #ffffff;
   position: relative;
 }
 .shopify-section.section--scent-showcase {
   z-index: 0;
   position: sticky;
   top: 0;
+}
+shopify-section.section--faq-section{
+  padding-right: 50%;
 }
 .lazyload,
 .lazyloading {
@@ -5191,7 +5191,7 @@ ticker-tape[data-draggable="true"] {
   margin-top: 60px;
 }
 :root {
-  --btn-text-color: #f6f3f0;
+  --btn-text-color: #ffffff;
   --btn-background-color: #434343;
 }
 .shopify-challenge__button.btn {
@@ -5961,7 +5961,7 @@ input:-internal-autofill-selected {
 }
 .global-header {
   z-index: 50;
-  background-color: #f6f3f0;
+  background-color: #ffffff;
   width: 100%;
   height: 50px;
   position: relative;
@@ -6099,7 +6099,7 @@ input:-internal-autofill-selected {
     z-index: 9;
     opacity: 0;
     padding-inline: 15px;
-    background-color: #f6f3f0;
+    background-color: rgb(255, 255, 255);
     flex-direction: column;
     padding-top: 60px;
     transition: opacity 0.3s ease-out, visibility 0s 0.3s;
@@ -6139,7 +6139,7 @@ input:-internal-autofill-selected {
     font-family: Martina Plant, serif;
   }
   #main-nav.is-open {
-    background-color: #f6f3f0;
+    background-color: #ffffff;
   }
   #main-nav.is-open:after {
     z-index: 0;
@@ -6183,7 +6183,7 @@ input:-internal-autofill-selected {
   }
 }
 .nav-sticky {
-  background-color: #f6f3f0;
+  background-color: #ffffff;
   width: 100%;
   position: fixed;
   top: 0;
