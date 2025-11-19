@@ -239,10 +239,10 @@
       return;
     }
 
-    // Basic phone validation
-    const phoneRegex = /^[0-9]{10}$/;
+    // Basic phone validation (allow international/local variable lengths)
+    const phoneRegex = /^[0-9]{6,15}$/;
     if (!phoneRegex.test(phone.replace(/[\s\-\(\)]/g, ''))) {
-      alert('Please enter a valid 10-digit phone number');
+      alert('Please enter a valid phone number');
       return;
     }
 

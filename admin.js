@@ -8,6 +8,71 @@
     console.warn('[ADMIN] Firebase SDK not found on page. Make sure the firebase scripts are loaded.');
   }
 
+  // Toggle delivered state for an order (Firestore or localStorage)
+  async function toggleDelivered(id, newVal, tr, statusBtn) {
+    if (!id) return alert('Order id missing');
+    // Update in Firestore if available
+    if (db) {
+      try {
+        await db.collection('purchaseHistory').doc(id).update({ delivered: newVal });
+      } catch (err) {
+        console.error('[ADMIN] toggleDelivered error', err);
+        alert('Failed to update order status: ' + (err.message || err));
+        return;
+      }
+    } else {
+      // localStorage fallback
+      try {
+        const history = JSON.parse(localStorage.getItem('meelaCartHistory')||'[]');
+        const idx = history.findIndex(h => (h.id||'') === id);
+        if (idx !== -1) {
+          history[idx].delivered = newVal;
+          localStorage.setItem('meelaCartHistory', JSON.stringify(history));
+        }
+      } catch (e) {
+        console.error('[ADMIN] local toggleDelivered failed', e);
+      }
+    }
+
+    // Update UI (status button)
+    statusBtn.dataset.delivered = newVal ? 'true' : 'false';
+    statusBtn.textContent = newVal ? 'Delivered' : 'Mark Delivered';
+    statusBtn.className = newVal ? 'btn btn-success btn-status' : 'btn btn-secondary btn-status';
+  }
+
+  // Delete an order (Firestore or localStorage) and remove row from DOM
+  async function deleteOrder(id, tr) {
+    if (!id) return alert('Order id missing');
+    // Delete from Firestore if available
+    if (db) {
+      try {
+        await db.collection('purchaseHistory').doc(id).delete();
+      } catch (err) {
+        console.error('[ADMIN] deleteOrder error', err);
+        alert('Failed to delete order: ' + (err.message || err));
+        return;
+      }
+    } else {
+      // localStorage fallback
+      try {
+        const history = JSON.parse(localStorage.getItem('meelaCartHistory')||'[]');
+        const newHistory = history.filter(h => (h.id||'') !== id);
+        localStorage.setItem('meelaCartHistory', JSON.stringify(newHistory));
+      } catch (e) {
+        console.error('[ADMIN] local deleteOrder failed', e);
+      }
+    }
+
+    // Remove row from DOM and update count
+    if (tr && tr.parentNode) tr.parentNode.removeChild(tr);
+    // update visible order count
+    try {
+      const current = parseInt((orderCount && orderCount.textContent) ? orderCount.textContent.replace(/[^0-9]/g,'') : ordersTbody.rows.length);
+      const next = Math.max(0, (isNaN(current) ? ordersTbody.rows.length : current - 1));
+      if (orderCount) orderCount.textContent = next + ' order' + (next !== 1 ? 's' : '');
+    } catch (e) { /* ignore */ }
+  }
+
   // Basic references
   const appSection = document.getElementById('app');
   const ordersTbody = document.getElementById('orders-tbody');
@@ -52,11 +117,14 @@
     
     // Phone
     const phoneCell = document.createElement('td');
-    phoneCell.textContent = (data.customerInfo && data.customerInfo.phone) || '-';
+    const phoneVal = (data.customerInfo && data.customerInfo.phone) || '-';
+    phoneCell.textContent = phoneVal;
+    phoneCell.className = 'phone-cell';
+    phoneCell.title = phoneVal;
     
     // Total
     const totalCell = document.createElement('td');
-    totalCell.textContent = data.total ? '₹' + (data.total.toFixed?data.total.toFixed(2):data.total) : '-';
+    totalCell.textContent = data.total ? 'AED ' + (data.total.toFixed?data.total.toFixed(2):data.total) : '-';
     totalCell.style.fontWeight = '600';
     
     // Date
@@ -81,13 +149,48 @@
     }
     dateCell.style.fontSize = '13px';
     
-    // Action
+    // Status (button placed in this column)
+    const statusCell = document.createElement('td');
+    const isDelivered = !!data.delivered;
+    const statusBtn = document.createElement('button');
+    statusBtn.textContent = isDelivered ? 'Delivered' : 'Mark Delivered';
+    statusBtn.className = isDelivered ? 'btn btn-success btn-status' : 'btn btn-secondary btn-status';
+    statusBtn.dataset.delivered = isDelivered ? 'true' : 'false';
+    statusBtn.addEventListener('click', function(e){
+      e.preventDefault();
+      const current = statusBtn.dataset.delivered === 'true';
+      const newVal = !current;
+      toggleDelivered(doc.id || '', newVal, tr, statusBtn);
+    });
+    statusCell.appendChild(statusBtn);
+
+    // Action (buttons)
     const actionCell = document.createElement('td');
+    actionCell.style.whiteSpace = 'nowrap';
+    const actionWrap = document.createElement('div');
+    actionWrap.className = 'action-buttons';
+
     const viewBtn = document.createElement('button');
     viewBtn.textContent = 'View Details';
     viewBtn.className = 'btn btn-ghost btn-action';
     viewBtn.addEventListener('click', function(){ showOrderModal(doc.id || '', data); });
-    actionCell.appendChild(viewBtn);
+    actionWrap.appendChild(viewBtn);
+
+    // Delete button
+
+    // Delete button
+    const deleteBtn = document.createElement('button');
+    deleteBtn.textContent = 'Delete';
+    deleteBtn.className = 'btn btn-danger btn-delete';
+    deleteBtn.style.marginLeft = '8px';
+    deleteBtn.addEventListener('click', function(e){
+      e.preventDefault();
+      if (confirm('Delete this order? This action cannot be undone.')) {
+        deleteOrder(doc.id || '', tr);
+      }
+    });
+    actionWrap.appendChild(deleteBtn);
+    actionCell.appendChild(actionWrap);
 
     tr.appendChild(idCell);
     tr.appendChild(nameCell);
@@ -95,6 +198,7 @@
     tr.appendChild(phoneCell);
     tr.appendChild(totalCell);
     tr.appendChild(dateCell);
+    tr.appendChild(statusCell);
     tr.appendChild(actionCell);
 
     return tr;
@@ -106,7 +210,7 @@
     if (!docs || docs.length === 0) {
       ordersTbody.innerHTML = `
         <tr>
-          <td colspan="7" class="empty-state">
+          <td colspan="8" class="empty-state">
             <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
               <circle cx="12" cy="12" r="10"></circle>
               <line x1="12" y1="8" x2="12" y2="12"></line>
@@ -239,30 +343,30 @@
       total += subtotal;
       html.push('<tr>');
       html.push('<td>' + escapeHtml(item.title || '') + '</td>');
-      html.push('<td>₹' + (item.price ? item.price.toFixed(2) : '0.00') + '</td>');
+      html.push('<td>AED ' + (item.price ? item.price.toFixed(2) : '0.00') + '</td>');
       html.push('<td>' + escapeHtml(String(item.quantity || 1)) + '</td>');
-      html.push('<td style="text-align:right">₹' + (subtotal.toFixed ? subtotal.toFixed(2) : subtotal) + '</td>');
+      html.push('<td style="text-align:right">AED ' + (subtotal.toFixed ? subtotal.toFixed(2) : subtotal) + '</td>');
       html.push('</tr>');
     });
     
     // Show subtotal row
     html.push('<tr>');
     html.push('<td colspan="3" style="text-align:right">Subtotal:</td>');
-    html.push('<td style="text-align:right">₹' + (data.subtotal ? data.subtotal.toFixed(2) : total.toFixed(2)) + '</td>');
+    html.push('<td style="text-align:right">AED ' + (data.subtotal ? data.subtotal.toFixed(2) : total.toFixed(2)) + '</td>');
     html.push('</tr>');
     
     // Show discount if applicable
     if (data.discount && data.discount > 0) {
       html.push('<tr style="color:#27ae60">');
       html.push('<td colspan="3" style="text-align:right">Discount (20%):</td>');
-      html.push('<td style="text-align:right">-₹' + data.discount.toFixed(2) + '</td>');
+      html.push('<td style="text-align:right">-AED ' + data.discount.toFixed(2) + '</td>');
       html.push('</tr>');
     }
     
     // Show total
     html.push('<tr class="total-row">');
     html.push('<td colspan="3" style="text-align:right;font-weight:600">Total:</td>');
-    html.push('<td style="text-align:right;font-weight:600">₹' + (data.total ? data.total.toFixed(2) : total.toFixed(2)) + '</td>');
+    html.push('<td style="text-align:right;font-weight:600">AED ' + (data.total ? data.total.toFixed(2) : total.toFixed(2)) + '</td>');
     html.push('</tr>');
     html.push('</tbody></table>');
     html.push('</div>');

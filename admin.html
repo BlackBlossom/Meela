@@ -86,6 +86,29 @@
       border-color:#939393;
       background:#f0f0f0;
     }
+    .btn-secondary{
+      background:transparent;
+      border:1px solid #dedfdb;
+      color:#3c3c3c;
+      padding:8px 14px;
+      font-size:13px;
+    }
+    .btn-success{
+      background:#16a34a;
+      border:1px solid #16a34a;
+      color:#fff;
+      padding:8px 14px;
+      font-size:13px;
+    }
+    .btn-danger{
+      background:#ef4444;
+      border:1px solid #ef4444;
+      color:#fff;
+      padding:8px 14px;
+      font-size:13px;
+    }
+    .btn-status{padding:8px 12px;font-size:13px}
+    .btn-delete{padding:8px 12px;font-size:13px}
     .btn-logout{
       background:transparent;
       color:#3c3c3c;
@@ -109,7 +132,8 @@
       background:#fff;
       border-radius:0;
       box-shadow:none;
-      overflow:hidden;
+      /* allow visible overflow so internal controls aren't clipped */
+      overflow:visible;
       border:1px solid #dedfdb;
     }
     .card-header{
@@ -128,7 +152,9 @@
       letter-spacing:0.5px;
       text-transform:uppercase;
     }
-    .card-body{padding:0}
+    .card-body{padding:0; overflow-x:auto; -webkit-overflow-scrolling:touch}
+    /* Make table responsive: allow horizontal scroll on narrow screens */
+    #orders-table{min-width:900px}
     table{width:100%;border-collapse:collapse}
     th,td{
       padding:20px 36px;
@@ -169,6 +195,8 @@
       color:#3c3c3c;
       letter-spacing:0.5px;
     }
+    .action-buttons{display:flex;gap:8px;align-items:center}
+    td.phone-cell{white-space:nowrap;font-family:monospace;overflow:visible}
     .btn-action:hover{
       background:#3c3c3c;
       color:#f6f3f0;
@@ -321,6 +349,9 @@
       .card-header{padding:20px}
       .modal-body{padding:24px}
       .detail-section h3{font-size:15px}
+      /* Responsive actions: stack buttons and keep status visible */
+      .action-buttons{display:flex;flex-direction:column;gap:8px}
+      td .action-buttons .btn{width:100%;box-sizing:border-box}
     }
   </style>
   <!-- Firebase (compat) -->
@@ -459,12 +490,13 @@
                 <th>Phone</th>
                 <th>Total</th>
                 <th>Date</th>
-                <th>Action</th>
+                <th>Status</th>
+                <th>Actions</th>
               </tr>
             </thead>
             <tbody id="orders-tbody">
               <tr>
-                <td colspan="7" class="empty-state">
+                <td colspan="8" class="empty-state">
                   <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                     <circle cx="12" cy="12" r="10"></circle>
                     <line x1="12" y1="8" x2="12" y2="12"></line>

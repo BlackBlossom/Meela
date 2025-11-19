@@ -4,7 +4,6 @@ Thumbs.db
 desktop.ini
 
 # Ignore IDE files
-.vscode/
 .idea/
 *.swp
 *.swo
@@ -27,9 +26,6 @@ yarn-error.log*
 *~
 
 # Ignore environment files with sensitive data
-.env
-.env.local
-.env.production
 config.local.js
 
 # Ignore node_modules if you add npm later
@@ -61,3 +57,4 @@ firestore-debug.log
 !cdn/
 !assets/
 !products/
+config.bat
