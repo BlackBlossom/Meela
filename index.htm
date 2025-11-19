@@ -2431,6 +2431,33 @@
 
 <section id="shopify-section-template--18581858910406__faq_section_kQLRhz" class="shopify-section section--faq-section">
   <div class='tw-container--fluid section-padding - section-padding--reduce-bottom'>
+    <style>
+      /* Desktop-only: align the FAQ menu left and the accordion content to the right half */
+      @media (min-width: 701px) {
+        /* Ensure the row keeps columns side-by-side */
+        #shopify-section-template--18581858910406__faq_section_kQLRhz .tw-row {
+          align-items: start;
+        }
+
+        /* Make the right column a flex container and push its content to the right edge */
+        #shopify-section-template--18581858910406__faq_section_kQLRhz .tw-row > .tw-col:nth-child(2) {
+          display: flex;
+          justify-content: flex-end;
+        }
+
+        /* Keep the accordion content at a comfortable max width and full width inside its flex cell */
+        #shopify-section-template--18581858910406__faq_section_kQLRhz .faq-groups__content {
+          width: 100%;
+          max-width: 700px;
+        }
+
+        /* Small visual tweak: tighten vertical spacing and ensure predictable sizing */
+        #shopify-section-template--18581858910406__faq_section_kQLRhz .faq-groups__content .accordian-block {
+          box-sizing: border-box;
+          margin: 0 0 10px 0;
+        }
+      }
+    </style>
     <div class='tw-row'>
       <div class='tw-col w-full md:w-6/12 md:relative bg-transparent z-10'
         style='border: none; border-top: none; border-bottom: none; font-family: "Neue Haas Grotesk Text", sans-serif;'>
